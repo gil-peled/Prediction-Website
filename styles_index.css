@@ -1773,3 +1773,18 @@ body {
     background-color: #7E57C2; /* Aesthetic change only */
     border-color: #7E57C2; /* Change only the color of the border */
 }
+.content {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.content {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f8f9fa;
+    border-left: 5px solid #4CAF50;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+}

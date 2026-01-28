@@ -1,17 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="data2.js"></script>
-
     <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="content.js"></script>
-    <title>Document</title>
+    <title>Prototype 2 Calculator</title>
+
+    <!-- Prototype 2 model code -->
+    <script src="sigma_6mo.js" defer></script>
+    <script src="sigma_12mo.js" defer></script>
+    <script src="load_sigma.js" defer></script>
+    <script src="prototype2_model.js" defer></script>
     <style>
-        .logo-left {
-            float: left;
-            margin-left: 120px;
+        .comorbidities-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px 12px;
+            font-size: 0.85em;
+        }
+        .labs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        @media (max-width: 768px) {
+            .comorbidities-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .labs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .comorbidities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        #resultsGrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            #resultsGrid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -20,170 +53,155 @@
     <script src="loadNavbar.js"></script>
     <script src="content.js"></script>
     
+    <div class="card" style="padding: 15px; margin-bottom: 10px;">
+        <h2 style="margin: 0 0 8px 0; font-size: 1.5em;">Prototype 2 Risk Calculator (6-month & 12-month)</h2>
+        <p style="margin: 0 0 8px 0; font-size: 0.9em;">Enter what you know. If a lab is missing, leave it blank (the model uses a missing-indicator).</p>
+        <div id="error-message-container" style="display:none; color:red; font-size: 0.9em;"></div>
+    </div>
 
-    <div class="card card-top">
-                <!-- Repeat for Years since Cirrhosis Diagnosis -->
-        <div class="etiology-section">
-            <h3>Primary Etiology of Cirrhosis</h3>
-            <!-- Input fields here -->
-        </div>
-        
-        <select id="etiology" name="etiology">
-            <option value="Alcohol">Alcohol</option>
+    <div class="card" style="padding: 15px; margin-bottom: 10px;">
+        <h3 style="margin: 0 0 8px 0; font-size: 1.1em;">Etiology</h3>
+        <label for="etiology" style="display: block; margin-bottom: 4px; font-size: 0.9em;">Primary etiology:</label>
+        <select id="etiology" name="etiology" style="width: 100%; padding: 6px; font-size: 0.9em;">
+            <option value="MASLD">MASLD (baseline)</option>
+            <option value="ALD">ALD</option>
+            <option value="METALD">METALD</option>
             <option value="HCV">HCV</option>
             <option value="HBV">HBV</option>
             <option value="Biliary">Biliary</option>
-            <option value="MASLD">MASLD</option>
-            <option value="MetALD">Metald</option>
-
-            <!-- Options here -->
+            <option value="Other">Other</option>
+            <option value="2+ Etiologies">2+ Etiologies</option>
+            <option value="Unknown">Unknown</option>
         </select>
-
-           <!-- Years since Cirrhosis Diagnosis -->
-            <label for="yearsCirrhosis">Years since Cirrhosis Diagnosis:</label>
-            <select id="yearsCirrhosis" name="yearsCirrhosis">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                <!-- Add options for 1 through 9 here -->
-            </select>
     </div>
 
-    <div class="card-gap"></div>
+    <div class="card" style="padding: 15px; margin-bottom: 10px;">
+        <h3 style="margin: 0 0 8px 0; font-size: 1.1em;">Basic information</h3>
+        <label for="ageInput" style="display: block; margin-bottom: 4px; font-size: 0.9em;">Age (years):</label>
+        <input type="number" id="ageInput" name="ageInput" placeholder="18–90" min="0" step="1" style="width: 100%; padding: 6px; margin-bottom: 10px; font-size: 0.9em; box-sizing: border-box;">
 
-   
-
-
-    <div class="card card-bottom">
-        <!-- Basic Information -->
-        <div class="form-group">
-            <h3>Basic Information</h3>
-            <label for="ageInput">Patient Age:</label>
-            <input type="number" id="ageInput" name="ageInput" placeholder="Enter patient's age in years">
-            <div id="error-message-container" style="display: none; color: red;"></div>
-
-  
-            <!-- ...other content... -->
-
-            <div class="form-group">
-                <h3>Gender</h3>
-                <input type="radio" id="male" name="gender" value="male">
-                <label for="male">Male</label>
-                <input type="radio" id="female" name="gender" value="female" checked>
-                <label for="female">Female</label>
-                    <div id="error-message-container" style="color: red; display: none;"></div>
-
+        <div style="margin-bottom: 10px;">
+            <label style="display: block; margin-bottom: 4px; font-size: 0.9em;">Gender:</label>
+            <div style="display: flex; gap: 15px;">
+                <label style="display: flex; align-items: center; font-size: 0.9em; cursor: pointer;"><input type="radio" id="male" name="gender" value="male" style="margin-right: 4px;"> Male</label>
+                <label style="display: flex; align-items: center; font-size: 0.9em; cursor: pointer;"><input type="radio" id="female" name="gender" value="female" checked style="margin-right: 4px;"> Female</label>
             </div>
-            <!-- ...other content... -->
-            
+        </div>
 
-                
-            <div class="form-group">
-                <h3>Comorbidities</h3>
-                <!-- Checkbox input before label to have it on the left -->
-                <div class="checkbox">
-                    <input type="checkbox" id="myocardialInfarction" name="myocardialInfarction">
-                    <label for="myocardialInfarction">Myocardial Infarction</label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="heartFailure" name="heartFailure">
-                    <label for="heartFailure">Heart Failure</label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="peripheralArterialDisease" name="peripheralArterialDisease">
-                    <label for="peripheralArterialDisease">Peripheral Arterial Disease</label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="cerebrovascularDisease" name="cerebrovascularDisease">
-                    <label for="cerebrovascularDisease">Cerebrovascular Disease</label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="dementia" name="dementia">
-                    <label for="dementia">Dementia</label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="uncomplicatedDiabetes" name="uncomplicatedDiabetes">
-                    <label for="uncomplicatedDiabetes">Uncomplicated Diabetes</label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="complicatedDiabetes" name="complicatedDiabetes">
-                    <label for="complicatedDiabetes">Complicated Diabetes</label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="paralysis" name="paralysis">
-                    <label for="paralysis">Paralysis</label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="malignancy" name="malignancy">
-                    <label for="malignancy">Malignancy</label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="metastaticCancer" name="metastaticCancer">
-                    <label for="metastaticCancer">Metastatic Cancer</label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="aids" name="aids">
-                    <label for="aids">AIDS</label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="pulmonaryHeartDisease" name="pulmonaryHeartDisease">
-                    <label for="pulmonaryHeartDisease">Pulmonary Heart Disease</label>
-                </div>
-            </div>
-            
-  
+        <div style="display: flex; align-items: center; margin-top: 8px;">
+            <input type="checkbox" id="hcc" name="hcc" style="margin-right: 6px;">
+            <label for="hcc" style="font-size: 0.9em; cursor: pointer;">HCC</label>
         </div>
     </div>
-    
-    
-    <button id="calculateButton" class="calculate-button">Calculate Risk</button>
 
-    <div class="card">
-        <h3>Results</h3>
-        <!-- Container for displaying current matrix calculations based on user input -->
-        <div class="results-container" id="resultsContainer">
-            <h4>Current Matrix Calculations:</h4>
-            <p id="currentMatrix">[Results will be displayed here]</p>
+    <div class="card" style="padding: 15px; margin-bottom: 10px;">
+        <h3 style="margin: 0 0 8px 0; font-size: 1.1em;">Labs (optional)</h3>
+        <div class="labs-grid">
+            <div>
+                <label for="labSodium" style="display: block; margin-bottom: 4px; font-size: 0.85em;">Sodium (mEq/L):</label>
+                <input type="number" id="labSodium" inputmode="decimal" placeholder="135" step="0.1" min="0" style="width: 100%; padding: 6px; font-size: 0.9em; box-sizing: border-box;">
+            </div>
+            <div>
+                <label for="labCreatinine" style="display: block; margin-bottom: 4px; font-size: 0.85em;">Creatinine (mg/dL):</label>
+                <input type="number" id="labCreatinine" inputmode="decimal" placeholder="1.0" step="0.01" min="0" style="width: 100%; padding: 6px; font-size: 0.9em; box-sizing: border-box;">
+            </div>
+            <div>
+                <label for="labPlatelet" style="display: block; margin-bottom: 4px; font-size: 0.85em;">Platelets (K/µL):</label>
+                <input type="number" id="labPlatelet" inputmode="decimal" placeholder="150" step="1" min="0" style="width: 100%; padding: 6px; font-size: 0.9em; box-sizing: border-box;">
+            </div>
+            <div>
+                <label for="labAlbumin" style="display: block; margin-bottom: 4px; font-size: 0.85em;">Albumin (g/dL):</label>
+                <input type="number" id="labAlbumin" inputmode="decimal" placeholder="3.6" step="0.01" min="0" style="width: 100%; padding: 6px; font-size: 0.9em; box-sizing: border-box;">
+            </div>
+            <div>
+                <label for="labINR" style="display: block; margin-bottom: 4px; font-size: 0.85em;">INR:</label>
+                <input type="number" id="labINR" inputmode="decimal" placeholder="1.2" step="0.01" min="0" style="width: 100%; padding: 6px; font-size: 0.9em; box-sizing: border-box;">
+            </div>
+            <div>
+                <label for="labBilirubin" style="display: block; margin-bottom: 4px; font-size: 0.85em;">Bilirubin (mg/dL):</label>
+                <input type="number" id="labBilirubin" inputmode="decimal" placeholder="1.0" step="0.01" min="0" style="width: 100%; padding: 6px; font-size: 0.9em; box-sizing: border-box;">
+            </div>
         </div>
-        <!-- Container for displaying matrix data loaded from data.js -->
-        <div class="results-container" id="matrixBContainer">
-            <h4>Matrix B:</h4>
-            <p id="matrixBData">[Matrix B data will be displayed here]</p>
+    </div>
+
+    <div class="card" style="padding: 15px; margin-bottom: 10px;">
+        <h3 style="margin: 0 0 8px 0; font-size: 1.1em;">Comorbidities</h3>
+        <div class="comorbidities-grid">
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_prior_mi" data-predictor="Prior MI" style="margin-right: 5px; flex-shrink: 0;"> Prior Myocardial Infarction</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_chf" data-predictor="CHF" style="margin-right: 5px; flex-shrink: 0;"> Congestive Heart Failure</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_pad" data-predictor="PAD" style="margin-right: 5px; flex-shrink: 0;"> Peripheral Artery Disease</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_cva" data-predictor="CVA" style="margin-right: 5px; flex-shrink: 0;"> Cerebrovascular Accident</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_dementia" data-predictor="Dementia" style="margin-right: 5px; flex-shrink: 0;"> Dementia</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_copd" data-predictor="COPD" style="margin-right: 5px; flex-shrink: 0;"> Chronic Obstructive Pulmonary Disease</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_rheum" data-predictor="Rheumatic Disease" style="margin-right: 5px; flex-shrink: 0;"> Rheumatic Disease</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_pud" data-predictor="PUD" style="margin-right: 5px; flex-shrink: 0;"> Peptic Ulcer Disease</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_dm_uncomp" data-predictor="Uncomplicated DA" style="margin-right: 5px; flex-shrink: 0;"> Uncomplicated Diabetes</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_hemi" data-predictor="Hemiplegia" style="margin-right: 5px; flex-shrink: 0;"> Hemiplegia</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_dm_comp" data-predictor="Complicated DA" style="margin-right: 5px; flex-shrink: 0;"> Complicated Diabetes</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_malign" data-predictor="Malignancy" style="margin-right: 5px; flex-shrink: 0;"> Malignancy</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_met" data-predictor="Metastasis" style="margin-right: 5px; flex-shrink: 0;"> Metastatic Cancer</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_aids" data-predictor="AIDS" style="margin-right: 5px; flex-shrink: 0;"> AIDS</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_renal_mild" data-predictor="Mild/Moderate Renal Disease" style="margin-right: 5px; flex-shrink: 0;"> Mild/Moderate Renal Disease</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_renal_severe" data-predictor="Severe Renal Disease" style="margin-right: 5px; flex-shrink: 0;"> Severe Renal Disease</label>
         </div>
-        <!-- Container for displaying matrix V data loaded from data.js -->
-        <div class="results-container" id="matrixVContainer">
-            <h4>Matrix V:</h4>
-            <p id="matrixVData">[Matrix V data will be displayed here]</p>
-        </div>
-        <!-- Reserved container for future results or additional data -->
-        <div class="results-container" id="futureResultsContainer">
-            <h4>Additional Data:</h4>
-            <p>[Reserved for future results]</p>
-        </div>
-        <div class="results-container" id="probabilityContainer">
-            <h4>Calculated Probability:</h4>
-            <p id="probabilityValue">[Probability will be displayed here]</p>
-        </div>
-        <div class="results-container" id="seContainer">
-            <h4>Standard Error (SE):</h4>
-            <p>[SE will be displayed here]</p>
-        </div>
+    </div>
+
+    <div style="text-align: center; margin: 15px 0;">
+        <button id="calculateButton" class="calculate-button" style="padding: 12px 30px; font-size: 1em;">Calculate risk</button>
+    </div>
+
+    <div class="card" style="padding: 15px; margin-bottom: 10px;">
+        <h3 style="margin: 0 0 8px 0; font-size: 1.1em;">Results</h3>
         
-    </div>
-
-    <div class="card">
-        <!-- Probability Percentage Display -->
-        <div class="results-container" id="probabilityPercentageContainer">
-            <h4>Probability of Decompensation in the Next Year:</h4>
-            <p id="probabilityPercentage">[Percentage will be displayed here]</p>
+        <div id="resultsGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="results-container" style="padding: 12px;">
+                <div class="outcome-title" style="font-size: 1em; margin-bottom: 6px; font-weight: bold;">6-month risk</div>
+                <div class="predicted-probability" id="probabilityValue6m" style="font-size: 2em; margin: 8px 0;">—</div>
+                <div class="confidence-intervals" id="ciText6m" style="font-size: 0.9em;">—</div>
+            </div>
+            
+            <div class="results-container" style="padding: 12px;">
+                <div class="outcome-title" style="font-size: 1em; margin-bottom: 6px; font-weight: bold;">12-month risk</div>
+                <div class="predicted-probability" id="probabilityValue12m" style="font-size: 2em; margin: 8px 0;">—</div>
+                <div class="confidence-intervals" id="ciText12m" style="font-size: 0.9em;">—</div>
+            </div>
         </div>
+
+        <details style="margin-top: 10px;">
+            <summary style="font-size: 0.9em; cursor: pointer;">Debug details (X, β, contributions)</summary>
+            <div style="overflow-x: auto; margin-top: 8px;">
+                <div style="margin-bottom: 15px;">
+                    <h4 style="margin: 0 0 8px 0; font-size: 0.95em; font-weight: bold;">6-month model</h4>
+                    <pre id="debugSummary6m" style="white-space: pre-wrap; font-size: 0.85em; margin: 0 0 8px 0;">—</pre>
+                    <table id="debugTable6m" class="results-table" style="width:100%; font-size: 0.85em; border-collapse: collapse; margin-bottom: 15px;">
+                        <thead>
+                            <tr style="background-color: #f0f0f0;">
+                                <th style="padding: 6px; text-align: left; border: 1px solid #ddd;">Predictor</th>
+                                <th style="padding: 6px; text-align: right; border: 1px solid #ddd;">x</th>
+                                <th style="padding: 6px; text-align: right; border: 1px solid #ddd;">β</th>
+                                <th style="padding: 6px; text-align: right; border: 1px solid #ddd;">x·β</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 8px 0; font-size: 0.95em; font-weight: bold;">12-month model</h4>
+                    <pre id="debugSummary12m" style="white-space: pre-wrap; font-size: 0.85em; margin: 0 0 8px 0;">—</pre>
+                    <table id="debugTable12m" class="results-table" style="width:100%; font-size: 0.85em; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #f0f0f0;">
+                                <th style="padding: 6px; text-align: left; border: 1px solid #ddd;">Predictor</th>
+                                <th style="padding: 6px; text-align: right; border: 1px solid #ddd;">x</th>
+                                <th style="padding: 6px; text-align: right; border: 1px solid #ddd;">β</th>
+                                <th style="padding: 6px; text-align: right; border: 1px solid #ddd;">x·β</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </details>
     </div>
 
     
@@ -198,176 +216,231 @@
 </div>
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const calculateButton = document.getElementById('calculateButton');
-        const ageInput = document.getElementById('ageInput');
-        const genderInputs = document.querySelectorAll('input[name="gender"]');
-        const errorMessageContainer = document.getElementById('error-message-container');
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const calculateButton = document.getElementById('calculateButton');
+            const errorBox = document.getElementById('error-message-container');
 
-        calculateButton.addEventListener('click', function() {
-            const age = parseInt(ageInput.value, 10);
-            const gender = document.querySelector('input[name="gender"]:checked').value;
-            calculateButton.classList.add('processing'); // Button is processing
-            calculateButton.textContent = 'Calculating...'; // Change button text
-
-
-            // Delay the calculation simulation
-        setTimeout(function() {
-            if (isNaN(age) || age < 18 || age > 90) {
-                errorMessageContainer.textContent = 'Age must be between 18 and 90.';
-                errorMessageContainer.style.display = 'block';
-                calculateButton.classList.remove('processing');
-                calculateButton.classList.add('error');
-                calculateButton.textContent = 'Calculate Risk'; // Reset button text
-            } else {
-                // Suppose the calculation is successful
-                errorMessageContainer.style.display = 'none';
-                calculateButton.classList.remove('processing', 'error');
-                calculateButton.textContent = 'Calculate Risk';
-                // Continue with calculations...
-            }
-        }, 1500); // Simulated calculation time
-
-        
-        // Clear the error message
-        errorMessageContainer.style.display = 'none';
-            const comorbidities = [
-                'myocardialInfarction', 'heartFailure', 'peripheralArterialDisease', 'cerebrovascularDisease', 
-                'dementia', 'uncomplicatedDiabetes', 'complicatedDiabetes', 'paralysis', 
-                'malignancy', 'metastaticCancer', 'aids', 'pulmonaryHeartDisease'
-            ];
-
-
-            // Clear previous error messages
-            errorMessageContainer.textContent = '';
-            errorMessageContainer.style.display = 'none';
-
-            // Check if age is not a number, less than 18, or greater than 90
-            if (isNaN(age) || age < 18 || age > 90) {
-                // Prevent form submission or calculation
-                event.preventDefault();
-
-                // Display the error message
-                errorMessageContainer.textContent = 'Age must be a number between 18 and 90.';
-                errorMessageContainer.style.display = 'block';
-            } else {
-                // Age is valid, proceed with form submission or calculation
-                // ... Your calculation logic goes here ...
+            function readNumberOrNull(id) {
+                const el = document.getElementById(id);
+                const raw = (el?.value ?? "").trim();
+                if (!raw) return null;
+                const num = Number(raw);
+                return Number.isFinite(num) ? num : null;
             }
 
-
-
-            const etiology = document.getElementById('etiology').value;
-            const yearsCirrhosis = parseInt(document.getElementById('yearsCirrhosis').value, 10);
-            let etiology_number = convertEtiologyToNumber(etiology);
-    
-            let X = convertAgeToSpline(age);
-            X.push(gender === 'female' ? 1 : 0);
-            X = X.concat(comorbidities.map(id => document.getElementById(id).checked ? 1 : 0));
-            X.push(1); // Intercept
-    
-            const key = 'E' + etiology_number + 'T' + yearsCirrhosis;
-            const matrixB = MatrixData[key].B;
-            const matrixV = MatrixData[key].V;
-    
-            const resultsContainer = document.getElementById('resultsContainer');
-            resultsContainer.textContent = `Matrix: [${X.join(', ')}], Etiology Number: ${etiology_number}, Years of Cirrhosis: ${yearsCirrhosis}`;
-    
-            const matrixBContainer = document.getElementById('matrixBContainer');
-            const formattedMatrixB = matrixB.map(row => `[${row.join(', ')}]`).join(', ');
-            matrixBContainer.textContent = `Matrix B: [${formattedMatrixB}]`;
-    
-            const matrixVContainer = document.getElementById('matrixVContainer');
-            const formattedMatrixV = matrixV.map(row => `[${row.join(', ')}]`).join(', ');
-            matrixVContainer.textContent = `Matrix V: [${formattedMatrixV}]`;
-    
-
-            // Calculate the probability P
-            const P = calculateLogit(X, matrixB);
-            const probabilityContainer = document.getElementById('probabilityContainer');
-            probabilityContainer.textContent = `Calculated Probability (P): ${P.toFixed(4)}`;
-
-            const SE = calculateStandardError(P, X, matrixV);
-            const seContainer = document.getElementById('seContainer');
-            seContainer.textContent = `Standard Error (SE): ${SE.toFixed(4)}`;
-
-            // ... your existing code ...
-
-            const probabilityPercentageContainer = document.getElementById('probabilityPercentage');
-            probabilityPercentageContainer.textContent = `${(P * 100).toFixed(2)}%`;
-
-            // ... the rest of your existing code ...
-
-
-
-        });
-    
-        function calculateLogit(X, B) {
-            let dotProduct = 0;
-            for (let i = 0; i < X.length; i++) {
-                dotProduct += X[i] * B[i];
+            function setError(msg) {
+                if (!msg) {
+                    errorBox.textContent = '';
+                    errorBox.style.display = 'none';
+                    return;
+                }
+                errorBox.textContent = msg;
+                errorBox.style.display = 'block';
             }
-            return logisticFunction(dotProduct);
-        }
-    
-        function logisticFunction(z) {
-            return 1 / (1 + Math.exp(-z));
-        }
-    
-        function convertAgeToSpline(age) {
-            let age1, age2, age3;
-            if (age < 46) {
-                age1 = age - 45;
-                age2 = 0;
-                age3 = 0;
-            } else if (age >= 46 && age <= 65) {
-                age1 = 0;
-                age2 = age - 65;
-                age3 = 0;
-            } else {
-                age1 = 0;
-                age2 = 0;
-                age3 = age - 65;
-            }
-            return [age1, age2, age3];
-        }
-    
-        function convertEtiologyToNumber(etiology) {
-            switch (etiology) {
-                case 'Alcohol': return 0;
-                case 'HCV': return 1;
-                case 'HBV': return 2;
-                case 'Biliary': return 3;
-                case 'MASLD': return 4;
-                case 'MetALD': return 5;
-                default: return 0; // Default case in case no selection matches
-            }
-        }
 
-        function calculateStandardError(P, X, V) {
-            // Calculate the vector-matrix product X'V (which will be a vector)
-            let X_transposed_V = [];
-            for (let i = 0; i < X.length; i++) {
-                X_transposed_V[i] = 0;
-                for (let j = 0; j < X.length; j++) {
-                    X_transposed_V[i] += X[j] * V[j][i];  // Notice V[j][i] not V[i][j]
+            function validateRanges(values) {
+                const { age, labs } = values;
+                if (!Number.isFinite(age) || age < 18 || age > 90) return 'Age must be between 18 and 90.';
+                const checks = [
+                    ['Sodium', labs.sodium, 90, 200],
+                    ['Creatinine', labs.creatinine, 0, 25],
+                    ['Platelets (K/µL)', labs.platelet_k, 0, 2000],
+                    ['Albumin', labs.albumin, 0, 10],
+                    ['INR', labs.inr, 0, 20],
+                    ['Bilirubin', labs.bilirubin, 0, 100],
+                ];
+                for (const [name, v, lo, hi] of checks) {
+                    if (v == null) continue;
+                    if (!Number.isFinite(v) || v < lo || v > hi) return `${name} is out of expected range (${lo}–${hi}).`;
+                }
+                return null;
+            }
+
+            function buildFormValues() {
+                const age = Number((document.getElementById('ageInput')?.value ?? '').trim());
+                const gender = document.querySelector('input[name="gender"]:checked')?.value ?? 'female';
+                const female = gender === 'female';
+                const etiology = document.getElementById('etiology')?.value ?? 'MASLD';
+                const hcc = !!document.getElementById('hcc')?.checked;
+
+                /** @type {Record<string, boolean>} */
+                const comorbidities = {};
+                document.querySelectorAll('input[type="checkbox"][data-predictor]').forEach((el) => {
+                    const p = el.getAttribute('data-predictor');
+                    if (!p) return;
+                    comorbidities[p] = /** @type {HTMLInputElement} */ (el).checked;
+                });
+
+                return {
+                    age,
+                    female,
+                    etiology,
+                    hcc,
+                    labs: {
+                        sodium: readNumberOrNull('labSodium'),
+                        creatinine: readNumberOrNull('labCreatinine'),
+                        platelet_k: readNumberOrNull('labPlatelet'),
+                        albumin: readNumberOrNull('labAlbumin'),
+                        inr: readNumberOrNull('labINR'),
+                        bilirubin: readNumberOrNull('labBilirubin'),
+                    },
+                    comorbidities,
+                };
+            }
+
+            function renderDebug(result) {
+                // Render 6-month debug
+                const summary6m = document.getElementById('debugSummary6m');
+                const tbody6m = document.querySelector('#debugTable6m tbody');
+                if (summary6m && tbody6m) {
+                    const etiology = document.getElementById('etiology')?.value ?? 'MASLD';
+                    const masldValue = (etiology === 'MASLD') ? 1 : 0;
+
+                    summary6m.textContent =
+                        `z (logit): ${result.z6m.toFixed(6)}\n` +
+                        `p: ${(result.p6m * 100).toFixed(2)}%\n` +
+                        (result.ci6m ? `se: ${result.ci6m.se.toFixed(6)}\n` : `se: (Σ not loaded)\n`) +
+                        `predictors: ${result.model6m.predictors.length} (+ MASLD baseline)`;
+
+                    tbody6m.innerHTML = '';
+                    for (const row of result.contributions6m) {
+                        const tr = document.createElement('tr');
+                        tr.style.borderBottom = '1px solid #eee';
+                        const displayName = row.displayName || row.name;
+                        tr.innerHTML =
+                            `<td style="padding: 4px 6px;">${displayName}</td>` +
+                            `<td style="padding: 4px 6px; text-align: right;">${Number(row.x).toFixed(6)}</td>` +
+                            `<td style="padding: 4px 6px; text-align: right;">${Number(row.beta).toFixed(6)}</td>` +
+                            `<td style="padding: 4px 6px; text-align: right;">${Number(row.contrib).toFixed(6)}</td>`;
+                        tbody6m.appendChild(tr);
+                    }
+                    
+                    // Add MASLD as baseline
+                    const masldRow6m = document.createElement('tr');
+                    masldRow6m.style.fontStyle = 'italic';
+                    masldRow6m.style.backgroundColor = '#f9f9f9';
+                    masldRow6m.style.borderTop = '2px solid #ccc';
+                    masldRow6m.innerHTML =
+                        `<td style="padding: 4px 6px;">MASLD (baseline)</td>` +
+                        `<td style="padding: 4px 6px; text-align: right;">${masldValue.toFixed(6)}</td>` +
+                        `<td style="padding: 4px 6px; text-align: right;">0.000000</td>` +
+                        `<td style="padding: 4px 6px; text-align: right;">0.000000</td>`;
+                    tbody6m.appendChild(masldRow6m);
+                }
+
+                // Render 12-month debug
+                const summary12m = document.getElementById('debugSummary12m');
+                const tbody12m = document.querySelector('#debugTable12m tbody');
+                if (summary12m && tbody12m) {
+                    const etiology = document.getElementById('etiology')?.value ?? 'MASLD';
+                    const masldValue = (etiology === 'MASLD') ? 1 : 0;
+
+                    summary12m.textContent =
+                        `z (logit): ${result.z12m.toFixed(6)}\n` +
+                        `p: ${(result.p12m * 100).toFixed(2)}%\n` +
+                        (result.ci12m ? `se: ${result.ci12m.se.toFixed(6)}\n` : `se: (Σ not loaded)\n`) +
+                        `predictors: ${result.model12m.predictors.length} (+ MASLD baseline)`;
+
+                    tbody12m.innerHTML = '';
+                    for (const row of result.contributions12m) {
+                        const tr = document.createElement('tr');
+                        tr.style.borderBottom = '1px solid #eee';
+                        const displayName = row.displayName || row.name;
+                        tr.innerHTML =
+                            `<td style="padding: 4px 6px;">${displayName}</td>` +
+                            `<td style="padding: 4px 6px; text-align: right;">${Number(row.x).toFixed(6)}</td>` +
+                            `<td style="padding: 4px 6px; text-align: right;">${Number(row.beta).toFixed(6)}</td>` +
+                            `<td style="padding: 4px 6px; text-align: right;">${Number(row.contrib).toFixed(6)}</td>`;
+                        tbody12m.appendChild(tr);
+                    }
+                    
+                    // Add MASLD as baseline
+                    const masldRow12m = document.createElement('tr');
+                    masldRow12m.style.fontStyle = 'italic';
+                    masldRow12m.style.backgroundColor = '#f9f9f9';
+                    masldRow12m.style.borderTop = '2px solid #ccc';
+                    masldRow12m.innerHTML =
+                        `<td style="padding: 4px 6px;">MASLD (baseline)</td>` +
+                        `<td style="padding: 4px 6px; text-align: right;">${masldValue.toFixed(6)}</td>` +
+                        `<td style="padding: 4px 6px; text-align: right;">0.000000</td>` +
+                        `<td style="padding: 4px 6px; text-align: right;">0.000000</td>`;
+                    tbody12m.appendChild(masldRow12m);
                 }
             }
-            
-            // Then calculate the scalar (X'VX)
-            let X_transposed_V_X = 0;
-            for (let i = 0; i < X.length; i++) {
-                X_transposed_V_X += X_transposed_V[i] * X[i];
+
+            async function onCalculate() {
+                setError(null);
+                calculateButton.classList.add('processing');
+                calculateButton.textContent = 'Calculating...';
+
+                try {
+                    // Wait a bit for sigma to load if it hasn't loaded yet
+                    if (!window.PROTOTYPE2_SIGMA_6MO || !window.PROTOTYPE2_SIGMA_12MO) {
+                        // Try to load if LoadSigma is available
+                        if (window.LoadSigma) {
+                            await Promise.all([
+                                window.LoadSigma.loadSigma6m(),
+                                window.LoadSigma.loadSigma12m()
+                            ]);
+                        }
+                        // Wait a short time for async loading
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+
+                    const formValues = buildFormValues();
+                    const rangeErr = validateRanges(formValues);
+                    if (rangeErr) {
+                        setError(rangeErr);
+                        return;
+                    }
+
+                    const sigmaInput6m = window.PROTOTYPE2_SIGMA_6MO; // may be null until provided
+                    const sigmaInput12m = window.PROTOTYPE2_SIGMA_12MO; // may be null until provided
+                    const result = await window.Prototype2Model.evaluate(formValues, { 
+                        sigma6m: sigmaInput6m,
+                        sigma12m: sigmaInput12m
+                    });
+
+                    // Update 6-month results
+                    const probEl6m = document.getElementById('probabilityValue6m');
+                    const ciEl6m = document.getElementById('ciText6m');
+                    if (probEl6m) probEl6m.textContent = `${(result.p6m * 100).toFixed(2)}%`;
+
+                    if (ciEl6m) {
+                        if (result.ci6m) {
+                            ciEl6m.textContent =
+                                `CI (approx): ${(result.ci6m.lower * 100).toFixed(2)}% – ${(result.ci6m.upper * 100).toFixed(2)}%`;
+                        } else {
+                            ciEl6m.textContent = 'Note: Sigma for CI';
+                        }
+                    }
+
+                    // Update 12-month results
+                    const probEl12m = document.getElementById('probabilityValue12m');
+                    const ciEl12m = document.getElementById('ciText12m');
+                    if (probEl12m) probEl12m.textContent = `${(result.p12m * 100).toFixed(2)}%`;
+
+                    if (ciEl12m) {
+                        if (result.ci12m) {
+                            ciEl12m.textContent =
+                                `CI (approx): ${(result.ci12m.lower * 100).toFixed(2)}% – ${(result.ci12m.upper * 100).toFixed(2)}%`;
+                        } else {
+                            ciEl12m.textContent = 'Note: Sigma for CI';
+                        }
+                    }
+
+                    renderDebug(result);
+                } catch (e) {
+                    setError(`Calculation failed: ${e?.message ?? e}`);
+                } finally {
+                    calculateButton.classList.remove('processing');
+                    calculateButton.textContent = 'Calculate risk';
+                }
             }
 
-            // Calculate P(1-P)(X'VX) and then take the square root
-            let standardError = P * (1 - P) * Math.sqrt(X_transposed_V_X)/25;
-            return standardError;
-    }
-
-
-    });
+            calculateButton.addEventListener('click', onCalculate);
+        });
     </script>
     
 

@@ -3,9 +3,9 @@ import pandas as pd
 
 file_path = '23May2024Model.xlsx'
 xl = pd.ExcelFile(file_path)
-sheet_name = 'death_rob'
+sheet_name = 'Sheet1'
 nvars = 22
-E_max = 7 #refers to 8 etiologies E0 to E7
+E_max = 8 #refers to 8 etiologies E0 to E7
 T_max = 1
 
 all_data = {}

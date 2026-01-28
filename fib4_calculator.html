@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles_fib4.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FIB-4 Calculator</title>
@@ -23,37 +23,69 @@
     <div class="card">
         <form id="fib4Form">
             <label for="age">Age (years):</label>
-            <input type="number" id="age" name="age" required>
+            <input type="number" id="age" name="age" required min="0" max="120">
 
             <label for="ast">AST (U/L):</label>
-            <input type="number" id="ast" name="ast" required>
+            <input type="number" id="ast" name="ast" required min="0" max="1000">
 
             <label for="alt">ALT (U/L):</label>
-            <input type="number" id="alt" name="alt" required>
+            <input type="number" id="alt" name="alt" required min="0" max="1000">
 
             <label for="platelets">Platelet Count (10^9/L):</label>
-            <input type="number" id="platelets" name="platelets" required>
-
+            <input type="number" id="platelets" name="platelets" required min="0" max="1000">
         </form>
     </div>
 
     <button type="button" onclick="calculateFIB4()">Calculate FIB-4 Score</button>
 
-
     <div class="card">
         <h3>FIB-4 Score:</h3>
         <input type="text" id="fib4Score" disabled placeholder="FIB-4 score will be displayed here">
+        <h3>Risk Category:</h3>
+        <input type="text" id="riskCategory" disabled placeholder="Risk category will be displayed here">
+    </div>
+
+    <div class="card">
+        <h3>FIB-4 Score Categories:</h3>
+        <p>Low-risk: FIB-4 ≤ 1.3</p>
+        <p>Indeterminate-risk: 1.3 < FIB-4 ≤ 2.67</p>
+        <p>High-risk: FIB-4 > 2.67</p>
+        <p>Source: <em>J Gen Intern Med. 2022 Oct; 37(13): 3266–3274. Published online 2022 Jan 19. doi: 10.1007/s11606-021-07341-z PMCID: PMC9550951 PMID: 35048297 The Association of Fibrosis-4 Index Scores with Severe Liver Outcomes in Primary Care</em> - Andrew D. Schreiner, M.D., et al.</p>
     </div>
 
     <script>
         function calculateFIB4() {
+            // Retrieve the form data
             const age = parseFloat(document.getElementById('age').value);
             const ast = parseFloat(document.getElementById('ast').value);
             const alt = parseFloat(document.getElementById('alt').value);
             const platelets = parseFloat(document.getElementById('platelets').value);
 
+            // Validate the form data
+            if (isNaN(age) || isNaN(ast) || isNaN(alt) || isNaN(platelets)) {
+                alert("Please enter valid numbers for all fields.");
+                return;
+            }
+
+            if (age <= 0 || age > 120 || ast <= 0 || ast > 1000 || alt <= 0 || alt > 1000 || platelets <= 0 || platelets > 1000) {
+                alert("Please enter values within the specified ranges:\n- Age: 0-120 years\n- AST: 0-1000 U/L\n- ALT: 0-1000 U/L\n- Platelet Count: 0-1000 (10^9/L)");
+                return;
+            }
+
+            // Calculate the FIB-4 score
             const fib4 = (age * ast) / (platelets * Math.sqrt(alt));
             document.getElementById('fib4Score').value = fib4.toFixed(2);
+
+            // Determine the risk category
+            let riskCategory;
+            if (fib4 <= 1.3) {
+                riskCategory = "Low-risk";
+            } else if (fib4 > 1.3 && fib4 <= 2.67) {
+                riskCategory = "Indeterminate-risk";
+            } else {
+                riskCategory = "High-risk";
+            }
+            document.getElementById('riskCategory').value = riskCategory;
         }
     </script>
 </body>

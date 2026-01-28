@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles_meld.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MELD Score Calculator</title>
@@ -9,6 +9,50 @@
         .logo-left {
             float: left;
             margin-left: 120px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .card {
+            flex: 1;
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="number"], input[type="text"], select {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -18,81 +62,94 @@
     <script src="content.js"></script>
 
     <h2>MELD Score Calculator</h2>
-    <p>Select the version of the MELD score to calculate based on different criteria.</p>
+    <p>Calculate MELD, MELDNa, and MELD 3.0 scores based on the provided inputs.</p>
 
-    <div class="card">
-        <h3>Select MELD Score Version:</h3>
-        <div class="radio-group">
-            <input type="radio" id="meld1" name="meldVersion" value="meld1" onchange="toggleMeldVersion('meld1');">
-            <label for="meld1">MELD 1.0</label>
-            <input type="radio" id="meldNa" name="meldVersion" value="meldNa" onchange="toggleMeldVersion('meldNa');">
-            <label for="meldNa">MELDNa</label>
-            <input type="radio" id="meld3" name="meldVersion" value="meld3" onchange="toggleMeldVersion('meld3');" checked>
-            <label for="meld3">MELD 3.0</label>
-        </div>
-        
-        <div id="meldInputs" style="display: none;">
+    <div class="container">
+        <div class="card">
+            <label for="sex">Sex:</label>
+            <select id="sex" name="sex" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+
             <label for="bilirubin">Serum Bilirubin (mg/dL):</label>
-            <input type="number" id="bilirubin" name="bilirubin">
+            <input type="number" id="bilirubin" name="bilirubin" required min="0" max="100">
 
             <label for="creatinine">Serum Creatinine (mg/dL):</label>
-            <input type="number" id="creatinine" name="creatinine">
+            <input type="number" id="creatinine" name="creatinine" required min="0" max="100">
 
             <label for="inr">INR:</label>
-            <input type="number" id="inr" name="inr">
+            <input type="number" id="inr" name="inr" required min="0" max="10">
 
-            <div id="sodiumInput" style="display: none;">
-                <label for="sodium">Serum Sodium (mEq/L):</label>
-                <input type="number" id="sodium" name="sodium">
-            </div>
+            <label for="sodium">Serum Sodium (mEq/L):</label>
+            <input type="number" id="sodium" name="sodium" required min="125" max="137">
 
-            <div id="additionalInputs" style="display: none;">
-                <label for="sex">Sex:</label>
-                <select id="sex" name="sex">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-                <label for="albumin">Serum Albumin (g/dL):</label>
-                <input type="number" id="albumin" name="albumin">
-            </div>
+            <label for="albumin">Serum Albumin (g/dL):</label>
+            <input type="number" id="albumin" name="albumin" required min="0" max="5">
+
+            <button id="calculateButton" onclick="calculateMELD()">Calculate MELD Scores</button>
         </div>
-    </div>
 
-    <button id="calculateButton" onclick="calculateMELD()">Calculate MELD Score</button>
+        <div class="card">
+            <h3>MELD Scores</h3>
+            <p><strong>MELD 3.0:</strong> <input type="text" id="meld3ScoreOutput" disabled placeholder="MELD 3.0 score will be displayed here"></p>
+            <p><strong>MELDNa:</strong> <input type="text" id="meldNaScoreOutput" disabled placeholder="MELDNa score will be displayed here"></p>
+            <p><strong>MELD 1.0:</strong> <input type="text" id="meld1ScoreOutput" disabled placeholder="MELD 1.0 score will be displayed here"></p>
+            <h3>Risk Category - By MELD 3.0</h3>
+            <p id="riskCategoryOutput"></p>
 
-    <div class="card">
-        <h3>MELD Score</h3>
-        <input type="text" id="meldScoreOutput" disabled placeholder="MELD score will be displayed here">
-    </div>
 
+            <h3>Citations</h3>
+            <p>MedCalc: <a href="https://www.mdcalc.com/calc/10437/model-end-stage-liver-disease-meld#evidence" target="_blank">Model for End-Stage Liver Disease (MELD)</a></p>
+            <p>Dr. Patrick S. Kamath: <a href="https://www.mdcalc.com/calc/10437/model-end-stage-liver-disease-meld#evidence" target="_blank">MDCalc</a></p>
+            <p>Dr. W. Ray Kim: <a href="https://www.mdcalc.com/calc/10437/model-end-stage-liver-disease-meld#evidence" target="_blank">MDCalc</a></p>
+        </div>
+    
     <script>
-        // Implement JavaScript to handle form field visibility based on selected MELD version
-        document.addEventListener('DOMContentLoaded', function() {
-            toggleMeldVersion(document.querySelector('input[name="meldVersion"]:checked').value);
-        });
-
-        function toggleMeldVersion(version) {
-            document.getElementById('meldInputs').style.display = 'block';  // Always show common fields
-
-            var sodiumInput = document.getElementById('sodiumInput');
-            var additionalInputs = document.getElementById('additionalInputs');
-
-            // Hide all initially
-            sodiumInput.style.display = 'none';
-            additionalInputs.style.display = 'none';
-
-            // Enable fields based on selected MELD version
-            if (version === 'meldNa' || version === 'meld3') {
-                sodiumInput.style.display = 'block';
-            }
-            if (version === 'meld3') {
-                additionalInputs.style.display = 'block';
-            }
-        }
-
         function calculateMELD() {
-            // Example logic; implement according to actual MELD formulas
-            // Calculate and display MELD score based on input values and selected version
+            var bilirubin = parseFloat(document.getElementById('bilirubin').value);
+            var creatinine = parseFloat(document.getElementById('creatinine').value);
+            var inr = parseFloat(document.getElementById('inr').value);
+            var sodium = parseFloat(document.getElementById('sodium').value);
+            var sex = document.getElementById('sex').value;
+            var albumin = parseFloat(document.getElementById('albumin').value);
+
+            if (isNaN(bilirubin) || isNaN(creatinine) || isNaN(inr) || isNaN(sodium) || isNaN(albumin) || !sex) {
+                alert("Please enter valid values for all fields.");
+                return;
+            }
+
+            // MELD 1.0 Calculation
+            var meld1 = 3.78 * Math.log(bilirubin) + 11.2 * Math.log(inr) + 9.57 * Math.log(creatinine) + 6.43;
+
+            // MELDNa Calculation
+            var meldNa = meld1 + 1.32 * (137 - sodium) - 0.033 * meld1 * (137 - sodium);
+
+            // MELD 3.0 Calculation
+            var meld3 = 4.56 * Math.log(bilirubin) + 0.82 * (137 - sodium) - 0.24 * (137 - sodium) * Math.log(bilirubin) + 9.09 * Math.log(inr) + 11.14 * Math.log(creatinine) + 1.85 * (3.5 - albumin) - 1.83 * (3.5 - albumin) * Math.log(creatinine);
+            if (sex === 'female') {
+                meld3 += 1.33;
+            }
+
+            // Display the scores
+            document.getElementById('meld3ScoreOutput').value = meld3.toFixed(2);
+            document.getElementById('meldNaScoreOutput').value = meldNa.toFixed(2);
+            document.getElementById('meld1ScoreOutput').value = meld1.toFixed(2);
+
+            // Determine and display the risk category
+            let riskCategory;
+            if (meld3 < 10) {
+                riskCategory = "Low risk (less than 2% 3-month mortality)";
+            } else if (meld3 < 20) {
+                riskCategory = "Intermediate risk (6-20% 3-month mortality)";
+            } else if (meld3 < 30) {
+                riskCategory = "High risk (19-45% 3-month mortality)";
+            } else if (meld3 < 40) {
+                riskCategory = "Very high risk (52-76% 3-month mortality)";
+            } else {
+                riskCategory = "Extremely high risk (71-100% 3-month mortality)";
+            }
+            document.getElementById('riskCategoryOutput').innerText = riskCategory;
         }
     </script>
 </body>
