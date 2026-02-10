@@ -4,26 +4,111 @@
     <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Methodology of the AI-Driven Risk Calculator</title>
+    <title>Methodology – Risk Calculator</title>
     <style>
-        .logo-left {
-            float: left;
-            margin-left: 120px;
+        .logo-left { float: left; margin-left: 120px; }
+        .methodology-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 24px 20px;
         }
+        .methodology-wrap h1 { margin: 0 0 16px 0; font-size: 1.6em; }
+        .methodology-wrap h2 { margin: 1.35em 0 0.5em 0; font-size: 1.2em; }
+        .methodology-wrap p { margin: 0.5em 0 1em 0; line-height: 1.6; }
+        .methodology-wrap ul { margin: 0.5em 0 1em 1.5em; line-height: 1.5; }
+        .paper-block {
+            margin: 1.25em 0;
+            padding: 1em 1.25em;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        .paper-block .citation-short { font-size: 0.95em; margin-bottom: 10px; line-height: 1.5; }
+        .paper-block a { color: #673AB7; font-weight: 600; text-decoration: none; }
+        .paper-block a:hover { text-decoration: underline; }
+        .paper-preview-wrap {
+            margin-top: 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #fff;
+            height: 380px;
+        }
+        .paper-preview-wrap iframe { width: 100%; height: 100%; border: 0; }
+        .methodology-wrap .footer-links { margin-top: 2em; padding-top: 1em; border-top: 1px solid #eee; }
     </style>
 </head>
-
 <body>
     <script src="loadNavbar.js"></script>
     <script src="content.js"></script>
-    <h1>Methodology</h1>
-    <p>Logit</p>
 
+    <div class="methodology-wrap">
+        <h1>Methodology</h1>
+        <p>This page summarizes the methodology behind the Risk Calculator. The calculator estimates an individual patient’s probability of cirrhosis decompensation within 6 months and within 12 months after cirrhosis identification.</p>
 
-    <button onclick="location.href='risk_calculator.html';">Back to AI-Enhanced Calculator</button>
-    
-    <button onclick="location.href='index.html';">Return to Home Base</button>
+        <div class="paper-block">
+            <p class="citation-short"><strong>Paper:</strong> Vitello DJ et al. A Comprehensive Risk Prediction Model for Cirrhosis Decompensation Using a Large National Claims Database.</p>
+            <p><a href="predicting%20decomp%201-7-26.pdf" target="_blank" rel="noopener noreferrer">Preview / Download full paper (PDF)</a></p>
+            <div class="paper-preview-wrap">
+                <iframe src="predicting%20decomp%201-7-26.pdf#view=FitH" title="Paper preview"></iframe>
+            </div>
+        </div>
 
+        <h2>Data source and study population</h2>
+        <p><strong>Design.</strong> Retrospective longitudinal cohort using a large U.S. national insurer’s de-identified claims data, with linked laboratory results when available.</p>
+        <p><strong>Eligibility.</strong> Adults with baseline compensated cirrhosis and at least 6 months of follow-up. The cirrhosis identification date is the index date (start of observation).</p>
+        <p><strong>Cirrhosis identification.</strong> At least one claim containing validated cirrhosis ICD-9/ICD-10 codes.</p>
+        <p><strong>Etiology.</strong> Cirrhosis etiology is defined from ICD-9/10 codes and assigned as a mutually exclusive category using a hierarchical algorithm (e.g., ALD, HCV, multiple etiologies).</p>
+
+        <h2>Outcome definition</h2>
+        <p>A patient is considered to have <strong>decompensated</strong> if, within the 6- or 12-month window, there is a claim for any of: ascites, hepatic encephalopathy, variceal bleeding, hepatorenal syndrome, spontaneous bacterial peritonitis, or hepatopulmonary syndrome, based on published/validated ICD-9/10 and CPT codes.</p>
+        <p>To reduce misclassification from delayed coding, events occurring within 90 days of cirrhosis identification are treated as baseline (already decompensated at diagnosis) and are not counted as new decompensation.</p>
+
+        <h2>Predictors (model inputs)</h2>
+        <p>Covariates were selected for clinical and literature relevance and include:</p>
+        <ul>
+            <li><strong>Baseline demographics</strong> (e.g., age, sex)</li>
+            <li><strong>Cirrhosis etiology</strong></li>
+            <li><strong>Comorbidities</strong> (Charlson Comorbidity Index components)</li>
+            <li><strong>Laboratory values</strong> (sodium, creatinine, platelets, albumin, INR, bilirubin), entered as continuous variables with missing indicators when values are not available</li>
+        </ul>
+        <p>In the primary model development, sensitivity analyses compared performance with and without laboratory values.</p>
+
+        <h2>Model form</h2>
+        <p>We use <strong>multivariable logistic regression</strong> to estimate the probability of decompensation within a fixed horizon (6 months or 12 months).</p>
+        <p>For a patient with feature vector <em>X</em>, the model computes a linear score (logit):</p>
+        <p style="margin-left: 1em;">η = β<sub>0</sub> + β′<em>X</em></p>
+        <p>and converts it to a risk (probability) via the logistic function:</p>
+        <p style="margin-left: 1em;">Pr(decompensation within horizon | <em>X</em>) = 1 / (1 + exp(−η)).</p>
+        <p>A reference profile was defined (e.g., baseline demographics, MASLD etiology, no comorbidities, and <strong>missing labs</strong>); coefficients represent deviations from that baseline.</p>
+
+        <h2>Outputs</h2>
+        <p>In the paper, effect sizes are reported as <strong>odds ratios (ORs)</strong> with 95% confidence intervals. Here, the calculator presents the <strong>actual predicted probability</strong> of decompensation (6-month and 12-month risk, in %) for the individual patient, not the ORs.</p>
+
+        <h2>Confidence intervals (how they are created)</h2>
+        <p>The approximate 95% confidence intervals shown next to the point estimate are computed as follows:</p>
+        <ul>
+            <li>The variance-covariance matrix <strong>Σ</strong> of the regression coefficients (β) is estimated from the fitted model and loaded for both the 6-month and 12-month models.</li>
+            <li>For a given patient’s predictor vector <strong>x</strong>, the <strong>standard error (SE) of the linear predictor</strong> (logit) is computed as SE = √(x′ Σ x) (the square root of the quadratic form x′ Σ x). This reflects the uncertainty in the estimated linear combination of coefficients.</li>
+            <li>The <strong>95% interval on the logit scale</strong> is: [η − 1.96×SE, η + 1.96×SE].</li>
+            <li>These lower and upper bounds are then <strong>transformed back to the probability scale</strong> using the logistic function, giving the reported lower and upper bounds of the risk (%).</li>
+        </ul>
+        <p>Thus, the intervals are approximate 95% confidence intervals for the predicted probability of decompensation, accounting for estimation uncertainty in the regression coefficients.</p>
+
+        <h2>Validation and performance</h2>
+        <p><strong>Temporal internal validation.</strong> To mimic real-world deployment, we used temporal cross-validation: training on patients identified in 2012–2019 and validating on patients identified in 2020–2022.</p>
+        <p><strong>Performance.</strong> Calibration (observed vs. predicted risks across percentiles) and discrimination (e.g., ROC methods) were assessed. Calibration was very close, with an average deviance of 0.0063 between observed and predicted probabilities.</p>
+        <p>After estimating the full model and reviewing key predictors, a <strong>parsimonious</strong> version was built and converted into this online risk calculator to support clinical decision-making.</p>
+
+        <h2>How to use the calculator</h2>
+        <p>Enter the patient’s baseline information: demographics (age, sex), primary etiology of cirrhosis, comorbidities (as listed), and laboratory values when available. If a lab is missing, leave it blank; the model uses missing-indicator variables.</p>
+        <p>The calculator converts these inputs into a linear score (weighted sum) and applies the logistic transformation to produce the predicted probability of decompensation. It outputs <strong>6-month</strong> and <strong>12-month</strong> individualized risks, which can be used for risk stratification and care planning.</p>
+
+        <p class="footer-links">
+            <a href="predicting%20decomp%201-7-26.pdf" target="_blank" rel="noopener noreferrer">Download the full paper (PDF)</a> &nbsp;|&nbsp;
+            <a href="risk_calculator.html">Back to Risk calculator</a> &nbsp;|&nbsp;
+            <a href="index.html">Home</a>
+        </p>
+    </div>
 </body>
 </html>
-

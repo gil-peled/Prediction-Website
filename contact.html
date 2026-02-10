@@ -4,33 +4,42 @@
     <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Methodology of the Risk Calculator</title>
+    <title>Contact</title>
     <style>
-        .logo-left {
-            float: left;
-            margin-left: 120px;
-        }
+        .contact-wrap { max-width: 720px; margin: 0 auto; padding: 24px 20px; }
+        .contact-wrap h1 { margin: 0 0 16px 0; font-size: 1.6em; }
+        .contact-wrap p { margin: 0.5em 0 1em 0; line-height: 1.6; color: #444; }
+        .contact-wrap a { color: #673AB7; font-weight: 600; text-decoration: none; }
+        .contact-wrap a:hover { text-decoration: underline; }
+        .contact-block { margin: 1em 0; padding: 1em 0; border-bottom: 1px solid #eee; }
+        .contact-block:last-of-type { border-bottom: none; }
     </style>
 </head>
-
 <body>
     <script src="loadNavbar.js"></script>
     <script src="content.js"></script>
-    <h1>Methodology of the Risk Calculator</h1>
-    <p>Here, we explain the methodologies and the scientific basis used to develop the Risk Calculator. This includes the statistical models employed, data sources referenced, and any significant assumptions made during the design of the calculator.</p>
 
-    <h2>Statistical Models Used</h2>
-    <p>Description of the logistic regression models, coefficients, and other relevant details...</p>
+    <div class="contact-wrap">
+        <h1>Contact</h1>
 
-    <h2>Data Sources</h2>
-    <p>Information on the datasets and how they were processed...</p>
+        <div class="contact-block">
+            <p><strong>Website details:</strong><br>
+            <a href="mailto:gjpeled@gmail.com">gjpeled@gmail.com</a></p>
+        </div>
 
-    <h2>Assumptions</h2>
-    <p>Details on the assumptions made in the calculator's logic...</p>
+        <div class="contact-block">
+            <p><strong>Head physician:</strong><br>
+            <a href="https://www.nm.org/doctors/1720237159/daniela-p-ladner-md-mph" target="_blank" rel="noopener noreferrer">Daniela P. Ladner, MD, MPH</a> – Northwestern Medicine</p>
+        </div>
 
-    <button onclick="location.href='risk_calculator.html';">Back to Calculator</button>
-    
-    <button onclick="location.href='index.html';">Back to Home</button>
+        <div class="contact-block">
+            <p><strong>Northwestern University Transplant Outcomes Research Collaborative (NUTORC):</strong><br>
+            <a href="https://www.feinberg.northwestern.edu/sites/nutorc/index.html" target="_blank" rel="noopener noreferrer">NUTORC website</a></p>
+        </div>
 
+        <p style="margin-top: 24px;">
+            <a href="risk_calculator.html">Risk calculator</a> &nbsp;|&nbsp; <a href="index.html">Home</a>
+        </p>
+    </div>
 </body>
 </html>

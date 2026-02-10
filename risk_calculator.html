@@ -4,267 +4,438 @@
     <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Risk calculator</title>
+
+    <!-- Risk calculator model code -->
+    <script src="sigma_6mo.js" defer></script>
+    <script src="sigma_12mo.js" defer></script>
+    <script src="load_sigma.js" defer></script>
+    <script src="prototype2_model.js" defer></script>
+    <style>
+        .comorbidities-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px 12px;
+            font-size: 0.85em;
+        }
+        .labs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        @media (max-width: 768px) {
+            .comorbidities-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .labs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .comorbidities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Lab inputs: more transparent placeholder (grey values) */
+        .labs-grid .lab-input::placeholder {
+            opacity: 0.4;
+            color: #999;
+        }
+        #resultsGrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            #resultsGrid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
-
-    <div class="navigation">
-        <button onclick="window.location.href='index.html';">Home</button>
+    <script src="loadNavbar.js"></script>
+    <script src="content.js"></script>
+    
+    <div class="card" style="padding: 15px; margin-bottom: 10px;">
+        <h2 style="margin: 0 0 8px 0; font-size: 1.5em;">Risk calculator (6-month & 12-month)</h2>
+        <p style="margin: 0 0 8px 0; font-size: 0.9em;">Enter what you know. If a lab is missing, leave it blank (the model uses a missing-indicator).</p>
+        <div id="error-message-container" style="display:none; color:red; font-size: 0.9em;"></div>
     </div>
 
-    <h2>Patient Decompensation Risk Calculator</h2>
-    <p>Enter the patient's details to estimate the risk of decompensation in the next year. Decompensation refers to the deterioration of a patient's health status, which could lead to increased risk of hospitalization or mortality.</p>
-
-    <div class="card">
-        <h3>Basic Information</h3>
-        <label for="ageInput">Patient Age:</label>
-        <input type="number" id="ageInput" name="ageInput" placeholder="Enter patient's age in years">
-        <span id="ageErrorMessage" style="color: red;"></span>
-
-
-        <h3>Etiology of Cirrhosis</h3>
-        <label for="etiology">Primary Etiology:</label>
-        <select id="etiology" name="etiologyRange">
-            <option value="Undeclared">Undeclared</option>
-            <option value="Alcohol">Alcohol</option>
-            <option value="AlcoholHCV">Alcohol + HCV</option>
-            <option value="MASLD">MASLD (formerly NASH)</option>
-            <option value="MASLDHCV">MASLD + HCV</option>
-            <option value="HCV">Hepatitis C Virus</option>
-            <option value="HBV">Hepatitis B Virus</option>
-            <option value="Biliary">Biliary Disease</option>
-            <option value="Autoimmune">Autoimmune related</option>
+    <div class="card" style="padding: 15px; margin-bottom: 10px;">
+        <h3 style="margin: 0 0 8px 0; font-size: 1.1em;">Etiology</h3>
+        <label for="etiology" style="display: block; margin-bottom: 4px; font-size: 0.9em;">Primary etiology:</label>
+        <select id="etiology" name="etiology" style="width: 100%; padding: 6px; font-size: 0.9em;">
+            <option value="MASLD">MASLD (baseline)</option>
+            <option value="ALD">ALD</option>
+            <option value="METALD">METALD</option>
+            <option value="HCV">HCV</option>
+            <option value="HBV">HBV</option>
+            <option value="Biliary">Biliary</option>
+            <option value="Other">Other</option>
+            <option value="2+ Etiologies">2+ Etiologies</option>
+            <option value="Unknown">Unknown</option>
         </select>
-
-        
-        <h3>Gender</h3>
-        <div class="radio-group">
-            <input type="radio" id="male" name="gender" value="male">
-            <label for="male">Male</label>
-            <input type="radio" id="female" name="gender" value="female">
-            <label for="female">Female</label>
-            <input type="radio" id="undeclared" name="gender" value="undeclared" checked>
-            <label for="undeclared">Undeclared</label>
-        </div>
-
-        <h3>Do you have lab values?</h3>
-        <div class="radio-group">
-            <input type="radio" id="labsYes" name="labs" value="yes" onchange="toggleLabInputs(true);">
-            <label for="labsYes">Yes</label>
-            <input type="radio" id="labsNo" name="labs" value="no" checked onchange="toggleLabInputs(false);">
-            <label for="labsNo">No</label>
-        </div>
-
-        <div id="labInputs" style="display: none;">
-            <label for="creatinine">Creatinine lab (mg/dL):</label>
-            <input type="number" id="creatinineInput" name="creatinineInput" placeholder="Enter patient's Creatinine in mg/dL">
-            <span id="creatinineErrorMessage" style="color: red;"></span>
-
-            <label for="sodium">Sodium lab (mEq/L):</label>
-            <input type="number" id="sodiumInput" name="sodiumInput" placeholder="Enter patient's Sodium in mEq/L">
-            <span id="sodiumErrorMessage" style="color: red;"></span>
-
-            <label for="platelet">Platelet lab (k/microliter):</label>
-            <input type="number" id="plateletInput" name="plateletInput" placeholder="Enter patient's Platelet in k/microliter">
-            <span id="plateletErrorMessage" style="color: red;"></span>
-
-            <label for="albumin">Albumin lab (mg/dL):</label>
-            <input type="number" id="albuminInput" name="albuminInput" placeholder="Enter patient's Albumin in g/dL">
-            <span id="albuminErrorMessage" style="color: red;"></span>
-
-            <label for="bilirubin">Bilirubin lab (mg/dL):</label>
-            <input type="number" id="bilirubinInput" name="bilirubinInput" placeholder="Enter patient's Bilirubin in mg/dL">
-            <span id="bilirubinErrorMessage" style="color: red;"></span>
-
-            <label for="inr">INR lab (mg/dL):</label>
-            <input type="number" id="inrInput" name="inrInput" placeholder="Enter patient's INR in standard units">
-            <span id="inrErrorMessage" style="color: red;"></span>
-        </div>
-
-
     </div>
 
-    <button id="calculateButton">Calculate Risk</button>
+    <div class="card" style="padding: 15px; margin-bottom: 10px;">
+        <h3 style="margin: 0 0 8px 0; font-size: 1.1em;">Basic information</h3>
+        <label for="ageInput" style="display: block; margin-bottom: 4px; font-size: 0.9em;">Age (years):</label>
+        <input type="number" id="ageInput" name="ageInput" placeholder="18–90" min="0" step="1" style="width: 100%; padding: 6px; margin-bottom: 10px; font-size: 0.9em; box-sizing: border-box;">
+
+        <div style="margin-bottom: 10px;">
+            <label style="display: block; margin-bottom: 4px; font-size: 0.9em;">Gender:</label>
+            <div style="display: flex; gap: 15px;">
+                <label style="display: flex; align-items: center; font-size: 0.9em; cursor: pointer;"><input type="radio" id="male" name="gender" value="male" style="margin-right: 4px;"> Male</label>
+                <label style="display: flex; align-items: center; font-size: 0.9em; cursor: pointer;"><input type="radio" id="female" name="gender" value="female" checked style="margin-right: 4px;"> Female</label>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: center; margin-top: 8px;">
+            <input type="checkbox" id="hcc" name="hcc" style="margin-right: 6px;">
+            <label for="hcc" style="font-size: 0.9em; cursor: pointer;">HCC</label>
+        </div>
+    </div>
+
+    <div class="card" style="padding: 15px; margin-bottom: 10px;">
+        <h3 style="margin: 0 0 8px 0; font-size: 1.1em;">Labs (optional)</h3>
+        <div class="labs-grid">
+            <div>
+                <label for="labSodium" style="display: block; margin-bottom: 4px; font-size: 0.85em;">Sodium (mEq/L):</label>
+                <input type="number" id="labSodium" class="lab-input" inputmode="decimal" placeholder="135" step="0.1" min="0" style="width: 100%; padding: 6px; font-size: 0.9em; box-sizing: border-box;">
+            </div>
+            <div>
+                <label for="labCreatinine" style="display: block; margin-bottom: 4px; font-size: 0.85em;">Creatinine (mg/dL):</label>
+                <input type="number" id="labCreatinine" class="lab-input" inputmode="decimal" placeholder="1.0" step="0.01" min="0" style="width: 100%; padding: 6px; font-size: 0.9em; box-sizing: border-box;">
+            </div>
+            <div>
+                <label for="labPlatelet" style="display: block; margin-bottom: 4px; font-size: 0.85em;">Platelets (K/µL):</label>
+                <input type="number" id="labPlatelet" class="lab-input" inputmode="decimal" placeholder="150" step="1" min="0" style="width: 100%; padding: 6px; font-size: 0.9em; box-sizing: border-box;">
+            </div>
+            <div>
+                <label for="labAlbumin" style="display: block; margin-bottom: 4px; font-size: 0.85em;">Albumin (g/dL):</label>
+                <input type="number" id="labAlbumin" class="lab-input" inputmode="decimal" placeholder="3.6" step="0.01" min="0" style="width: 100%; padding: 6px; font-size: 0.9em; box-sizing: border-box;">
+            </div>
+            <div>
+                <label for="labINR" style="display: block; margin-bottom: 4px; font-size: 0.85em;">INR:</label>
+                <input type="number" id="labINR" class="lab-input" inputmode="decimal" placeholder="1.2" step="0.01" min="0" style="width: 100%; padding: 6px; font-size: 0.9em; box-sizing: border-box;">
+            </div>
+            <div>
+                <label for="labBilirubin" style="display: block; margin-bottom: 4px; font-size: 0.85em;">Bilirubin (mg/dL):</label>
+                <input type="number" id="labBilirubin" class="lab-input" inputmode="decimal" placeholder="1.0" step="0.01" min="0" style="width: 100%; padding: 6px; font-size: 0.9em; box-sizing: border-box;">
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="padding: 15px; margin-bottom: 10px;">
+        <h3 style="margin: 0 0 8px 0; font-size: 1.1em;">Comorbidities</h3>
+        <div class="comorbidities-grid">
+            <!-- Cardiovascular -->
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_prior_mi" data-predictor="Prior MI" style="margin-right: 5px; flex-shrink: 0;"> Myocardial infarction</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_chf" data-predictor="CHF" style="margin-right: 5px; flex-shrink: 0;"> Congestive heart failure</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_pad" data-predictor="PAD" style="margin-right: 5px; flex-shrink: 0;"> Peripheral vascular disease</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_cva" data-predictor="CVA" style="margin-right: 5px; flex-shrink: 0;"> Cerebrovascular disease</label>
+            <!-- Neurological -->
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_dementia" data-predictor="Dementia" style="margin-right: 5px; flex-shrink: 0;"> Dementia</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_hemi" data-predictor="Hemiplegia" style="margin-right: 5px; flex-shrink: 0;"> Hemiplegia or paraplegia</label>
+            <!-- Pulmonary -->
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_copd" data-predictor="COPD" style="margin-right: 5px; flex-shrink: 0;"> Chronic pulmonary disease</label>
+            <!-- Gastrointestinal -->
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_pud" data-predictor="PUD" style="margin-right: 5px; flex-shrink: 0;"> Peptic ulcer disease</label>
+            <!-- Rheumatologic -->
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_rheum" data-predictor="Rheumatic Disease" style="margin-right: 5px; flex-shrink: 0;"> Rheumatologic disease</label>
+            <!-- Diabetes -->
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_dm_uncomp" data-predictor="Uncomplicated DA" style="margin-right: 5px; flex-shrink: 0;"> Diabetes (controlled)</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_dm_comp" data-predictor="Complicated DA" style="margin-right: 5px; flex-shrink: 0;"> Diabetes (uncontrolled)</label>
+            <!-- Renal -->
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_renal_mild" data-predictor="Mild/Moderate Renal Disease" style="margin-right: 5px; flex-shrink: 0;"> Renal disease (mild/moderate)</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_renal_severe" data-predictor="Severe Renal Disease" style="margin-right: 5px; flex-shrink: 0;"> Renal disease (severe)</label>
+            <!-- Malignancy -->
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_malign" data-predictor="Malignancy" style="margin-right: 5px; flex-shrink: 0;"> Malignancy (localized)</label>
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_met" data-predictor="Metastasis" style="margin-right: 5px; flex-shrink: 0;"> Malignancy (metastatic)</label>
+            <!-- Other -->
+            <label style="display: flex; align-items: center; cursor: pointer; white-space: nowrap;"><input type="checkbox" id="cm_aids" data-predictor="AIDS" style="margin-right: 5px; flex-shrink: 0;"> AIDS</label>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin: 15px 0;">
+        <button id="calculateButton" class="calculate-button" style="padding: 12px 30px; font-size: 1em;">Calculate risk</button>
+    </div>
+
+    <div class="card" style="padding: 15px; margin-bottom: 10px;">
+        <h3 style="margin: 0 0 8px 0; font-size: 1.1em;">Results</h3>
+        
+        <div id="resultsGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="results-container" style="padding: 12px;">
+                <div class="outcome-title" style="font-size: 1em; margin-bottom: 6px; font-weight: bold;">6-month risk</div>
+                <div class="predicted-probability" id="probabilityValue6m" style="font-size: 2em; margin: 8px 0;">—</div>
+                <div class="confidence-intervals" id="ciText6m" style="font-size: 0.9em;">—</div>
+            </div>
+            
+            <div class="results-container" style="padding: 12px;">
+                <div class="outcome-title" style="font-size: 1em; margin-bottom: 6px; font-weight: bold;">12-month risk</div>
+                <div class="predicted-probability" id="probabilityValue12m" style="font-size: 2em; margin: 8px 0;">—</div>
+                <div class="confidence-intervals" id="ciText12m" style="font-size: 0.9em;">—</div>
+            </div>
+        </div>
+
+        <details style="margin-top: 10px;">
+            <summary style="font-size: 0.9em; cursor: pointer;">Debug details (X, β, contributions)</summary>
+            <div style="overflow-x: auto; margin-top: 8px;">
+                <div style="margin-bottom: 15px;">
+                    <h4 style="margin: 0 0 8px 0; font-size: 0.95em; font-weight: bold;">6-month model</h4>
+                    <pre id="debugSummary6m" style="white-space: pre-wrap; font-size: 0.85em; margin: 0 0 8px 0;">—</pre>
+                    <table id="debugTable6m" class="results-table" style="width:100%; font-size: 0.85em; border-collapse: collapse; margin-bottom: 15px;">
+                        <thead>
+                            <tr style="background-color: #f0f0f0;">
+                                <th style="padding: 6px; text-align: left; border: 1px solid #ddd;">Predictor</th>
+                                <th style="padding: 6px; text-align: right; border: 1px solid #ddd;">x</th>
+                                <th style="padding: 6px; text-align: right; border: 1px solid #ddd;">β</th>
+                                <th style="padding: 6px; text-align: right; border: 1px solid #ddd;">x·β</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 8px 0; font-size: 0.95em; font-weight: bold;">12-month model</h4>
+                    <pre id="debugSummary12m" style="white-space: pre-wrap; font-size: 0.85em; margin: 0 0 8px 0;">—</pre>
+                    <table id="debugTable12m" class="results-table" style="width:100%; font-size: 0.85em; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #f0f0f0;">
+                                <th style="padding: 6px; text-align: left; border: 1px solid #ddd;">Predictor</th>
+                                <th style="padding: 6px; text-align: right; border: 1px solid #ddd;">x</th>
+                                <th style="padding: 6px; text-align: right; border: 1px solid #ddd;">β</th>
+                                <th style="padding: 6px; text-align: right; border: 1px solid #ddd;">x·β</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </details>
+    </div>
 
     <div class="card">
-        <h3>Results</h3>
-        <div class="results-container">
-            <div>
-                <label for="outputDecompensation">1-Year Decompensation:</label>
-                <input type="text" id="outputDecompensation" disabled placeholder="Decompensation score">
-            </div>
-            <div>
-                <label for="outputDeath">1-Year Death:</label>
-                <input type="text" id="outputDeath" disabled placeholder="Death score">
-            </div>
-            <div>
-                <label for="outputHospitalization">1-Year Hospitalization:</label>
-                <input type="text" id="outputHospitalization" disabled placeholder="Hospitalization score">
-            </div>
-        </div>
+        <h3>Learn more about our methodology</h3>
+        <p>Understand the science behind our calculations.</p>
+        <button onclick="location.href='methodology.html';">View methodology</button>
     </div>
 
-    
     <script>
-        const calculateButton = document.getElementById('calculateButton');
-        const outputResult = document.getElementById('outputResult');
-        const ageInput = document.getElementById('ageInput');
-        const genderRadios = document.querySelectorAll('input[name="gender"]');
-        const ageErrorMessage = document.getElementById('ageErrorMessage');
+        document.addEventListener("DOMContentLoaded", function () {
+            const calculateButton = document.getElementById('calculateButton');
+            const errorBox = document.getElementById('error-message-container');
 
-
-        const outputDecompensation = document.getElementById('outputDecompensation');
-        const outputDeath = document.getElementById('outputDeath');
-        const outputHospitalization = document.getElementById('outputHospitalization');
-
-
-        function toggleLabInputs(show) {
-            document.getElementById('labInputs').style.display = show ? 'block' : 'none';
-        }
-
-    
-        calculateButton.addEventListener('click', function() {
-
-            const age = ageInput.value ? parseFloat(ageInput.value) : 60;
-            const hasLabs = document.querySelector('input[name="labs"]:checked').value === 'yes';
-
-            // Reset error messages
-            ageErrorMessage.textContent = '';
-
-            // Validate the age input
-            if (isNaN(age) || age < 18 || age > 90) {
-                ageErrorMessage.textContent = "Please enter a valid age between 18 and 90.";
-                outputResult.value = '';
-                return; // Exit the function if age is not valid
-            }
-            
-            let ageScore = calculateAgeScore(age);
-
-            const selectedEtiology = etiology.value;
-            const selectedGender = document.querySelector('input[name="gender"]:checked').value;
-            
-            // Calculate etiology and gender scores as before
-            let etiologyScore = calculateEtiologyScore(selectedEtiology);
-            let genderScore = calculateGenderScore(selectedGender);
-
-            // Initialize labScores
-            let labScores;
-            if (hasLabs) {
-                // Extract values, or pass undefined to use defaults
-                labScores = calculateLabScores(
-                    creatinineInput.value ? parseFloat(creatinineInput.value) : undefined,
-                    sodiumInput.value ? parseFloat(sodiumInput.value) : undefined,
-                    plateletInput.value ? parseFloat(plateletInput.value) : undefined,
-                    albuminInput.value ? parseFloat(albuminInput.value) : undefined,
-                    bilirubinInput.value ? parseFloat(bilirubinInput.value) : undefined,
-                    inrInput.value ? parseFloat(inrInput.value) : undefined
-
-                    // ... add the rest of the lab inputs
-                );
-            } else {
-                labScores = calculateLabScores(); // No labs provided, will use default values
+            function readNumberOrNull(id) {
+                const el = document.getElementById(id);
+                const raw = (el?.value ?? "").trim();
+                if (!raw) return null;
+                const num = Number(raw);
+                return Number.isFinite(num) ? num : null;
             }
 
+            function setError(msg) {
+                if (!msg) {
+                    errorBox.textContent = '';
+                    errorBox.style.display = 'none';
+                    return;
+                }
+                errorBox.textContent = msg;
+                errorBox.style.display = 'block';
+            }
 
-            // Different intercepts for each output
-            const interceptDecompensation = 4;
-            const interceptDeath = 3; // Example intercept value for death probability
-            const interceptHospitalization = 2; // Example intercept value for hospitalization probability
+            function validateRanges(values) {
+                const { age, labs } = values;
+                if (!Number.isFinite(age) || age < 18 || age > 90) return 'Age must be between 18 and 90.';
+                const checks = [
+                    ['Sodium', labs.sodium, 90, 200],
+                    ['Creatinine', labs.creatinine, 0, 25],
+                    ['Platelets (K/µL)', labs.platelet_k, 0, 2000],
+                    ['Albumin', labs.albumin, 0, 10],
+                    ['INR', labs.inr, 0, 20],
+                    ['Bilirubin', labs.bilirubin, 0, 100],
+                ];
+                for (const [name, v, lo, hi] of checks) {
+                    if (v == null) continue;
+                    if (!Number.isFinite(v) || v < lo || v > hi) return `${name} is out of expected range (${lo}–${hi}).`;
+                }
+                return null;
+            }
 
-            // Calculate the final logit scores including the labScores
-            const logitScoreDecompensation = ageScore + etiologyScore + genderScore + labScores + interceptDecompensation;
-            const logitScoreDeath = ageScore + etiologyScore + genderScore + labScores + interceptDeath;
-            const logitScoreHospitalization = ageScore + etiologyScore + genderScore + labScores + interceptHospitalization;
+            function buildFormValues() {
+                const age = Number((document.getElementById('ageInput')?.value ?? '').trim());
+                const gender = document.querySelector('input[name="gender"]:checked')?.value ?? 'female';
+                const female = gender === 'female';
+                const etiology = document.getElementById('etiology')?.value ?? 'MASLD';
+                const hcc = !!document.getElementById('hcc')?.checked;
 
-            // Transform the logit scores to probabilities
-            const probabilityDecompensation = Math.exp(logitScoreDecompensation) / (1 + Math.exp(logitScoreDecompensation));
-            const probabilityDeath = Math.exp(logitScoreDeath) / (1 + Math.exp(logitScoreDeath));
-            const probabilityHospitalization = Math.exp(logitScoreHospitalization) / (1 + Math.exp(logitScoreHospitalization));
+                /** @type {Record<string, boolean>} */
+                const comorbidities = {};
+                document.querySelectorAll('input[type="checkbox"][data-predictor]').forEach((el) => {
+                    const p = el.getAttribute('data-predictor');
+                    if (!p) return;
+                    comorbidities[p] = /** @type {HTMLInputElement} */ (el).checked;
+                });
 
-            // Display the probabilities, rounded to 4 decimal places
-            outputDecompensation.value = probabilityDecompensation.toFixed(4);
-            outputDeath.value = probabilityDeath.toFixed(4);
-            outputHospitalization.value = probabilityHospitalization.toFixed(4);
+                return {
+                    age,
+                    female,
+                    etiology,
+                    hcc,
+                    labs: {
+                        sodium: readNumberOrNull('labSodium'),
+                        creatinine: readNumberOrNull('labCreatinine'),
+                        platelet_k: readNumberOrNull('labPlatelet'),
+                        albumin: readNumberOrNull('labAlbumin'),
+                        inr: readNumberOrNull('labINR'),
+                        bilirubin: readNumberOrNull('labBilirubin'),
+                    },
+                    comorbidities,
+                };
+            }
+
+            function renderDebug(result) {
+                const summary6m = document.getElementById('debugSummary6m');
+                const tbody6m = document.querySelector('#debugTable6m tbody');
+                if (summary6m && tbody6m) {
+                    const etiology = document.getElementById('etiology')?.value ?? 'MASLD';
+                    const masldValue = (etiology === 'MASLD') ? 1 : 0;
+
+                    summary6m.textContent =
+                        `z (logit): ${result.z6m.toFixed(6)}\n` +
+                        `p: ${(result.p6m * 100).toFixed(2)}%\n` +
+                        (result.ci6m ? `se: ${result.ci6m.se.toFixed(6)}\n` : `se: (Σ not loaded)\n`) +
+                        `predictors: ${result.model6m.predictors.length} (+ MASLD baseline)`;
+
+                    tbody6m.innerHTML = '';
+                    for (const row of result.contributions6m) {
+                        const tr = document.createElement('tr');
+                        tr.style.borderBottom = '1px solid #eee';
+                        const displayName = row.displayName || row.name;
+                        tr.innerHTML =
+                            `<td style="padding: 4px 6px;">${displayName}</td>` +
+                            `<td style="padding: 4px 6px; text-align: right;">${Number(row.x).toFixed(6)}</td>` +
+                            `<td style="padding: 4px 6px; text-align: right;">${Number(row.beta).toFixed(6)}</td>` +
+                            `<td style="padding: 4px 6px; text-align: right;">${Number(row.contrib).toFixed(6)}</td>`;
+                        tbody6m.appendChild(tr);
+                    }
+                    const masldRow6m = document.createElement('tr');
+                    masldRow6m.style.fontStyle = 'italic';
+                    masldRow6m.style.backgroundColor = '#f9f9f9';
+                    masldRow6m.style.borderTop = '2px solid #ccc';
+                    masldRow6m.innerHTML =
+                        `<td style="padding: 4px 6px;">MASLD (baseline)</td>` +
+                        `<td style="padding: 4px 6px; text-align: right;">${masldValue.toFixed(6)}</td>` +
+                        `<td style="padding: 4px 6px; text-align: right;">0.000000</td>` +
+                        `<td style="padding: 4px 6px; text-align: right;">0.000000</td>`;
+                    tbody6m.appendChild(masldRow6m);
+                }
+
+                const summary12m = document.getElementById('debugSummary12m');
+                const tbody12m = document.querySelector('#debugTable12m tbody');
+                if (summary12m && tbody12m) {
+                    const etiology = document.getElementById('etiology')?.value ?? 'MASLD';
+                    const masldValue = (etiology === 'MASLD') ? 1 : 0;
+
+                    summary12m.textContent =
+                        `z (logit): ${result.z12m.toFixed(6)}\n` +
+                        `p: ${(result.p12m * 100).toFixed(2)}%\n` +
+                        (result.ci12m ? `se: ${result.ci12m.se.toFixed(6)}\n` : `se: (Σ not loaded)\n`) +
+                        `predictors: ${result.model12m.predictors.length} (+ MASLD baseline)`;
+
+                    tbody12m.innerHTML = '';
+                    for (const row of result.contributions12m) {
+                        const tr = document.createElement('tr');
+                        tr.style.borderBottom = '1px solid #eee';
+                        const displayName = row.displayName || row.name;
+                        tr.innerHTML =
+                            `<td style="padding: 4px 6px;">${displayName}</td>` +
+                            `<td style="padding: 4px 6px; text-align: right;">${Number(row.x).toFixed(6)}</td>` +
+                            `<td style="padding: 4px 6px; text-align: right;">${Number(row.beta).toFixed(6)}</td>` +
+                            `<td style="padding: 4px 6px; text-align: right;">${Number(row.contrib).toFixed(6)}</td>`;
+                        tbody12m.appendChild(tr);
+                    }
+                    const masldRow12m = document.createElement('tr');
+                    masldRow12m.style.fontStyle = 'italic';
+                    masldRow12m.style.backgroundColor = '#f9f9f9';
+                    masldRow12m.style.borderTop = '2px solid #ccc';
+                    masldRow12m.innerHTML =
+                        `<td style="padding: 4px 6px;">MASLD (baseline)</td>` +
+                        `<td style="padding: 4px 6px; text-align: right;">${masldValue.toFixed(6)}</td>` +
+                        `<td style="padding: 4px 6px; text-align: right;">0.000000</td>` +
+                        `<td style="padding: 4px 6px; text-align: right;">0.000000</td>`;
+                    tbody12m.appendChild(masldRow12m);
+                }
+            }
+
+            async function onCalculate() {
+                setError(null);
+                calculateButton.classList.add('processing');
+                calculateButton.textContent = 'Calculating...';
+
+                try {
+                    if (!window.PROTOTYPE2_SIGMA_6MO || !window.PROTOTYPE2_SIGMA_12MO) {
+                        if (window.LoadSigma) {
+                            await Promise.all([
+                                window.LoadSigma.loadSigma6m(),
+                                window.LoadSigma.loadSigma12m()
+                            ]);
+                        }
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+
+                    const formValues = buildFormValues();
+                    const rangeErr = validateRanges(formValues);
+                    if (rangeErr) {
+                        setError(rangeErr);
+                        return;
+                    }
+
+                    const sigmaInput6m = window.PROTOTYPE2_SIGMA_6MO;
+                    const sigmaInput12m = window.PROTOTYPE2_SIGMA_12MO;
+                    const result = await window.Prototype2Model.evaluate(formValues, { 
+                        sigma6m: sigmaInput6m,
+                        sigma12m: sigmaInput12m
+                    });
+
+                    const probEl6m = document.getElementById('probabilityValue6m');
+                    const ciEl6m = document.getElementById('ciText6m');
+                    if (probEl6m) probEl6m.textContent = `${(result.p6m * 100).toFixed(2)}%`;
+                    if (ciEl6m) {
+                        if (result.ci6m) {
+                            ciEl6m.textContent =
+                                `CI (approx): ${(result.ci6m.lower * 100).toFixed(2)}% – ${(result.ci6m.upper * 100).toFixed(2)}%`;
+                        } else {
+                            ciEl6m.textContent = 'Note: Sigma for CI';
+                        }
+                    }
+
+                    const probEl12m = document.getElementById('probabilityValue12m');
+                    const ciEl12m = document.getElementById('ciText12m');
+                    if (probEl12m) probEl12m.textContent = `${(result.p12m * 100).toFixed(2)}%`;
+                    if (ciEl12m) {
+                        if (result.ci12m) {
+                            ciEl12m.textContent =
+                                `CI (approx): ${(result.ci12m.lower * 100).toFixed(2)}% – ${(result.ci12m.upper * 100).toFixed(2)}%`;
+                        } else {
+                            ciEl12m.textContent = 'Note: Sigma for CI';
+                        }
+                    }
+
+                    renderDebug(result);
+                } catch (e) {
+                    setError(`Calculation failed: ${e?.message ?? e}`);
+                } finally {
+                    calculateButton.classList.remove('processing');
+                    calculateButton.textContent = 'Calculate risk';
+                }
+            }
+
+            calculateButton.addEventListener('click', onCalculate);
         });
-
-        function calculateAgeScore(age) {
-
-        if (isNaN(age) || age === '') {
-            age = 60;
-        }       
-
-        if (age <= 45) {
-            return (age - 18) * 0.02;
-        } else if (age <= 65) {
-            return (45 - 18) * 0.02 + (age - 45) * (-0.03);
-        } else {
-            return (45 - 18) * 0.02 + (65 - 45) * (-0.03) + (age - 65) * 0.03;
-        }
-    }
-
-    function calculateEtiologyScore(selectedEtiology) {
-    // Adjust these scores based on the actual impact of etiology on the logit score
-    const etiologyScores = {
-        'Alcohol': 0.3,
-        'AlcoholHCV': 0.5,
-        'MASLD': 0.8,
-        'MASLDHCV': 1.0,
-        'HCV': 1.2,
-        'HBV': 1.5,
-        'Biliary': 1.8,
-        'Autoimmune': 2.0,
-        'Undeclared': 0.5 // Default score if undeclared
-    };
-    return etiologyScores[selectedEtiology] || etiologyScores['Undeclared'];
-}
-
-function calculateGenderScore(selectedGender) {
-    const genderScores = {
-        'male': 0, // Assuming 'male' has no effect and thus is the baseline
-        'female': -2,
-        'undeclared': -0.3
-    };
-    return genderScores[selectedGender];
-}
-
-function calculateLabScores(creatinine, sodium, platelet, albumin, bilirubin, inr) {
-    // Assuming a linear score contribution from labs. Adjust as necessary.
-    // Placeholder values for "normal" levels, if labs are not provided
-    const defaultScores = {
-        creatinine: 1, // Default score for normal creatinine levels
-        sodium: 1, // Default score for normal sodium levels
-        platelet: 1, // Default score for normal platelet levels
-        albumin: 1, // Default score for normal albumin levels
-        bilirubin: 1, // Default score for normal bilirubin levels
-        inr: 1 // Default score for normal INR levels
-    };
-    
-    // Replace with actual lab score calculation logic
-    let labScore = 0;
-    labScore += (creatinine || defaultScores.creatinine) * 0.1; // Example score factor
-    labScore += (sodium || defaultScores.sodium) * 0.1; // Example score factor
-    labScore += (platelet || defaultScores.platelet) * 0.1; // Example score factor
-    labScore += (albumin || defaultScores.albumin) * 0.1; // Example score factor
-    labScore += (bilirubin || defaultScores.bilirubin) * 0.1; // Example score factor
-    labScore += (inr || defaultScores.inr) * 0.1; // Example score factor
-
-    return labScore;
-}
-
-
     </script>
-    
-    
-    
-<!-- Add this at the bottom of the risk_calculator.html file -->
-<div class="card">
-    <h3>Learn More About Our Methodology</h3>
-    <p>Understand the science behind our calculations.</p>
-    <button onclick="location.href='methodology.html';">View Methodology</button>
-</div>
-
-
 </body>
 </html>
-
