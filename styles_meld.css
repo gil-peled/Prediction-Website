@@ -1,0 +1,3381 @@
+input[type='number'] {
+    max-width: 200px; /* Adjust width as necessary */
+}
+
+/* Styling for the gender radio buttons and their labels */
+.radio-group {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.radio-group input[type='radio'] {
+    margin-right: 5px;
+    margin-top: 0; /* Aligns radio button with the label text */
+}
+
+.radio-group label {
+    margin-right: 20px;
+    display: flex;
+    align-items: center; /* Ensures label text aligns with radio button */
+}
+
+/* Override input styles for radios */
+input[type='radio'] {
+    width: auto; /* Resets width for radio buttons */
+    padding: 0; /* Resets padding for radio buttons */
+    margin-bottom: 0; /* Resets margin for radio buttons */
+}
+
+/* Style adjustments for small screens */
+@media (max-width: 600px) {
+    .radio-group {
+        flex-direction: column;
+    }
+
+    .radio-group label {
+        margin: 5px 0;
+    }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.card {
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #2c3e50;
+    text-align: center;
+}
+
+h3 {
+    color: #34495e;
+}
+
+label {
+    display: block;
+    margin-top: 20px;
+    color: #333;
+}
+
+input[type='text'],
+input[type='number'],
+select,
+input[type='radio'] + label {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Makes sure padding doesn't affect overall width */
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+p {
+    margin-top: 0;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Ensure proper spacing on smaller screens */
+@media (max-width: 600px) {
+    .card {
+        margin: 20px;
+    }
+}
+
+.navigation {
+    text-align: left; /* Aligns the button to the left; change as needed */
+    padding: 10px; /* Adds some padding around the button */
+    background-color: #f1f1f1; /* Light grey background; adjust color as needed */
+    border-bottom: 1px solid #ccc; /* Adds a subtle line below the navigation bar */
+}
+
+.navigation button {
+    padding: 8px 16px; /* Makes the button larger and easier to click */
+    background-color: #4CAF50; /* A nice green color; change as needed */
+    color: white; /* Text color */
+    border: none; /* Removes the default border */
+    border-radius: 4px; /* Rounds the corners of the button */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+}
+
+.navigation button:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.calculator-button {
+    width: 200px; /* Example width, adjust as needed */
+    cursor: pointer;
+    transition: transform 0.3s ease; /* Smooth transform effect on hover */
+}
+
+.calculator-button:hover {
+    transform: scale(1.05); /* Slightly enlarge the image on hover */
+}
+
+
+.results {
+    display: flex;
+    justify-content: space-around; /* Or space-between, depending on your design */
+}
+
+.result-item {
+    margin: 0 10px; /* Add spacing between result items */
+    flex: 1; /* Each item takes up equal space */
+}
+
+.button-row {
+    margin-bottom: 40px; /* Increased space between the rows */
+    display: flex;
+    justify-content: space-around; /* This will space the buttons evenly */
+}
+
+button {
+    padding: 10px 20px; /* Adds padding inside the buttons */
+    margin-right: 10px; /* Adds space between buttons */
+    cursor: pointer; /* Changes the cursor to pointer when hovering over the button */
+}
+
+button:last-child {
+    margin-right: 0; /* Removes margin from the last button in each row */
+}
+
+#probabilityPercentageContainer {
+    background-color: #e8f4ea; /* Light green background for visibility */
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.navigation {
+    background-color: #f5f5f5; /* Light grey background */
+    padding: 10px 0;
+    text-align: center; /* Center-align the button */
+}
+
+.navigation button {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.navigation button:hover {
+    background-color: #45a049; /* Darker shade of green for hover effect */
+}
+
+h2 {
+    color: #333; /* Dark grey color */
+    text-align: center;
+    font-size: 2.5em; /* Larger font size */
+    margin-bottom: 0.5em; /* Adjust space below the heading */
+    font-family: 'Arial', sans-serif; /* Professional font-family, can choose others like 'Helvetica' */
+}
+
+p {
+    text-align: center;
+    color: #666; /* Lighter grey color for the subtitle */
+    font-size: 1.2em;
+    margin-top: 0; /* Remove space above the paragraph */
+    margin-bottom: 2em; /* Add space below the paragraph */
+}
+.header-container {
+    text-align: center; /* Center-align the contents */
+}
+
+#logo {
+    max-width: 100px; /* Maximum width of the logo - adjust as necessary */
+    margin-bottom: 1em; /* Space below the logo */
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+#logo {
+    max-width: 100px; /* Adjust size as needed */
+    max-height: 100px;
+    margin: 10px 0;
+}
+
+.header {
+    display: flex;
+    align-items: center; /* Align vertically */
+    justify-content: space-between; /* Spacing on the main axis */
+    padding: 10px;
+}
+
+#logo {
+    height: auto; /* Keep the aspect ratio */
+    width: auto; /* Keep the aspect ratio */
+    max-height: 100px; /* You can adjust this for your logo size */
+}
+
+.navigation button {
+    /* ... existing styles ... */
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Align text to the left */
+}
+
+h2, p {
+    margin: 0; /* Remove default margins */
+}
+
+.header {
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+    justify-content: space-between; /* Distribute space between elements */
+    padding: 10px;
+}
+
+.logo-and-button {
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+}
+
+#logo {
+    max-width: 100px; /* Adjust size as needed */
+    max-height: 100px; /* Adjust size as needed */
+    margin-right: 20px; /* Add space between logo and the button */
+}
+
+.navigation {
+    padding: 0;
+}
+
+.navigation button {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-right: 20px; /* Add space between button and the title if needed */
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Align text to the left */
+}
+
+h2, p {
+    margin: 0; /* Remove default margins */
+    padding: 0; /* Remove padding if any */
+}
+
+/* You can add additional styles to fine-tune the appearance */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align items to the start of the main axis */
+    padding: 10px;
+}
+
+.logo-and-button {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; /* Adjust space between logo/button group and title */
+}
+
+#logo {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.navigation button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: 20px; /* Add space to the left of the button */
+}
+
+.title-container {
+    flex-grow: 1; /* Allows the title container to grow and fill the space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+h2, p {
+    margin: 0;
+}
+
+#etiology, #yearsCirrhosis {
+    background-color: #e8f0fe; /* A light blue background to stand out */
+    border: 2px solid #0056b3; /* A darker blue border */
+    padding: 5px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+label[for="etiology"], label[for="yearsCirrhosis"] {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+
+/* Style for the top card */
+.card-top {
+    margin-bottom: 20px; /* This creates a gap between the cards */
+}
+
+/* Optional: If you want a more visible gap between cards */
+.card-gap {
+    height: 20px; /* Or any other height you prefer for the gap */
+}
+
+/* Style for the bottom card */
+.card-bottom {
+    /* Your existing card styles */
+}
+
+/* General card styles */
+.card {
+    background: #fff;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px; /* Adds margin to the bottom of each card */
+}
+
+/* Remove margin from the last card if it's the last element */
+.card:last-of-type {
+    margin-bottom: 0;
+}
+
+.card-bottom {
+    display: flex;
+    flex-wrap: wrap; /* Allow the contents to wrap on smaller screens */
+    gap: 20px; /* Spacing between columns */
+}
+
+.column {
+    flex: 1; /* Each column will take up an equal amount of space */
+    min-width: 300px; /* Minimum width for each column to maintain layout */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Spacing between form groups */
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column; /* Stack radio buttons vertically */
+}
+
+/* Styling for the labels and inputs remain the same as previous suggestions */
+.card-bottom {
+    /* ... other styles ... */
+}
+
+.two-column-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Space between columns */
+}
+
+.left-column, .right-column {
+    flex-basis: 50%; /* Each column takes roughly half the space */
+}
+
+.checkbox-group {
+    margin-bottom: 10px;
+}
+
+/* Styling for radio buttons */
+.radio-group label {
+    display: block;
+    margin-bottom: 5px; /* Space below each label */
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* Ensure the checkboxes align with their labels */
+.checkbox-group input[type="checkbox"] {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+/* Flex container for radio buttons and labels */
+.radio-group {
+    display: flex; /* This will line up children elements horizontally */
+    justify-content: start; /* Align children elements to the start of the container */
+    margin-bottom: 20px; /* Add some space below the radio button group */
+}
+
+/* Styling for individual radio buttons */
+.radio-group input[type="radio"] {
+    margin-right: 5px; /* Space between the radio button and its label */
+}
+
+/* Styling for labels following radio buttons */
+.radio-group label {
+    margin-right: 20px; /* Space between the "Male" group and the "Female" group */
+    margin-bottom: 0; /* Ensures labels don't add unnecessary vertical space */
+}
+.card-bottom {
+    /* Apply the card styles as previously defined */
+}
+
+/* Style labels and inputs */
+label, input[type="number"], input[type="radio"], input[type="checkbox"] {
+    display: block; /* Stack the elements vertically */
+    margin-bottom: 10px; /* Add some space below each element */
+}
+
+/* Special styling for inline elements such as radio buttons */
+input[type="radio"], input[type="checkbox"] {
+    display: inline-block; /* Display radio buttons and checkboxes inline */
+    margin-right: 5px; /* Space between the checkbox/radio button and its label */
+}
+.form-group {
+    /* ...existing styles... */
+}
+
+.form-group h3 {
+    /* ...existing styles... */
+}
+
+.radio-inline {
+    display: inline-block;
+    margin-right: 15px; /* Adjust the space between the radio buttons */
+}
+
+/* Remove the block display from labels and input within the gender section */
+.form-group label, .form-group input[type="radio"] {
+    display: inline; /* This makes them appear on the same line */
+    margin-right: 5px; /* Adjust as needed for spacing */
+}
+/* General form group styling */
+.form-group {
+    margin-bottom: 20px; /* Adjust the space between form groups */
+}
+
+/* Styling for comorbidities section */
+.form-group .checkbox {
+    margin-bottom: 10px; /* Space between checkboxes */
+    display: flex; /* Align checkbox and label inline */
+    align-items: center; /* Center align the checkbox vertically with the text */
+}
+
+/* Styling for the checkbox input */
+.form-group .checkbox input[type="checkbox"] {
+    transform: scale(1.5); /* Scale up the checkbox */
+    margin-right: 10px; /* Space between the checkbox and the label */
+    cursor: pointer; /* Changes the cursor to a pointer when hovering over the checkbox */
+}
+
+/* Styling for the label */
+.form-group .checkbox label {
+    display: block; /* Ensures the label takes the remaining width after the checkbox */
+    cursor: pointer; /* Changes the cursor to a pointer when hovering over the label text */
+}
+
+/* Style for the comorbidities section */
+.comorbidities-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust column width as needed */
+    gap: 5px; /* Reduces space between grid items */
+    margin-bottom: 10px; /* Space below the section */
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center; /* Aligns the checkbox and label nicely */
+    margin-bottom: 5px; /* Reduce space between each comorbidity */
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 5px; /* Space between the checkbox and the label */
+}
+
+.checkbox-group label {
+    font-size: 0.9rem; /* Reduce font size */
+    white-space: nowrap; /* Prevents the label from wrapping */
+}
+#homeButton {
+    display: inline-block; /* Allows us to set width and height */
+    padding: 10px 20px; /* Top and bottom padding 10px, left and right padding 20px */
+    margin: 10px; /* Adds some space around the button */
+    background-color: #007bff; /* A nice blue background */
+    color: white; /* White text */
+    text-align: center; /* Center the text inside the button */
+    text-decoration: none; /* Get rid of the underline */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth background color change when interacting */
+    font-size: 16px; /* Sets a font size */
+    font-weight: bold; /* Makes the text bold */
+    border: none; /* Removes the border */
+    cursor: pointer; /* Changes the cursor to signify this can be clicked */
+  }
+  
+  #homeButton:hover, #homeButton:focus {
+    background-color: #0056b3; /* Darker blue on hover/focus */
+    color: #fff; /* Text color remains white */
+    outline: none; /* Remove outline on focus */
+  }
+  
+  #homeButton:active {
+    background-color: #004080; /* Even darker blue when the button is clicked */
+  }
+  
+  .calculate-button {
+    padding: 10px 20px;
+    background-color: #28a745; /* A green background */
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    outline: none;
+  }
+  
+  .calculate-button:hover {
+    background-color: #218838;
+  }
+  
+  .calculate-button:active {
+    background-color: #1e7e34;
+  }
+  
+  .calculate-button.error {
+    background-color: #dc3545; /* Red background for error */
+    box-shadow: 0 0 0 2px #dc3545; /* Glowing effect */
+  }
+  
+  .calculate-button.processing {
+    background-color: #ffc107; /* Yellow background for processing */
+  }
+  .collapsible {
+    background-color: #f9f9f9;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+  }
+  
+  .bounds-container {
+    background-color: #f8f9fa; /* Light grey background */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Some padding */
+    margin-top: 20px; /* Space from the previous element */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* A subtle shadow for depth */
+}
+
+.bounds {
+    display: flex;
+    justify-content: space-between; /* Space out the lower and upper bounds */
+}
+
+.bound h4 {
+    color: #333; /* Dark grey color for the titles */
+    margin-bottom: 5px; /* Small space between the title and the value */
+}
+
+.bound p {
+    font-size: 1.2em; /* Larger font size for emphasis */
+    color: #007bff; /* Bootstrap's primary blue color for the values */
+}
+
+.navigation-bar {
+    display: flex;
+    justify-content: center;
+    background-color: #333;
+    overflow: hidden;
+}
+
+.navigation-bar a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.navigation-bar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.navigation-bar a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #FFFFFF; /* Pure white background */
+    padding: 20px 40px; /* Adjust padding as needed */
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 105px; /* This takes about 1/5th the height if the total header area is about 400px */
+}
+
+.logo-left {
+    height: 100px; /* Increased logo size */
+    margin-right: auto; /* Pushes the logo towards the center */
+    margin-left: 8%; /* Adjust this percentage to control how close to the center */
+}
+.logo-right {
+    height: 80px; /* Increased logo size */
+    margin-left: auto; /* Pushes the logo towards the center */
+    margin-right: 8%; /* Adjust this percentage to control how close to the center */
+}
+
+.navigation-bar {
+    display: flex;
+    justify-content: center;
+    background-color: #333;
+    overflow: hidden;
+}
+
+.navigation-bar a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.navigation-bar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.navigation-bar a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+.navigation-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #003366; /* Deep blue background */
+}
+
+.navigation-bar li {
+    float: left;
+}
+
+.navigation-bar li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navigation-bar li a:hover, .dropdown:hover .dropbtn {
+    background-color: #555;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.navigation-bar {
+    background-color: #003366; /* Deep blue background */
+    width: 100%;
+    height: 50px; /* Adjust height as needed */
+}
+
+.navigation-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.navigation-bar li {
+    position: relative;
+}
+
+.navigation-bar li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navigation-bar li a:hover, .dropdown:hover .dropbtn {
+    background-color: #555;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    min-width: 160px; /* Ensures the dropdown covers enough area */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.navigation-bar {
+    background-color: #003366; /* Deep blue background */
+    width: 100%;
+}
+
+.navigation-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.navigation-bar li {
+    position: relative;
+}
+
+.navigation-bar li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navigation-bar li a:hover, .dropdown:hover .dropbtn {
+    background-color: #555;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    min-width: 160px; /* Ensures the dropdown covers enough area */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Responsive dropdown addition */
+@media (max-width: 768px) {
+    .navigation-bar ul {
+        flex-direction: column;
+    }
+    .dropdown-content {
+        width: 100%; /* Ensures dropdown covers full width under smaller screens */
+    }
+}
+
+.navigation-bar {
+    background-color: #7851A9; /* Royal purple background */
+    width: 100%;
+    height: 65px; /* Adjust height as needed */
+    
+}
+
+.navigation-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start; /* Align items to start after padding */
+}
+
+.navigation-bar li {
+    position: relative;
+}
+
+.navigation-bar li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 16px; /* Larger font size */
+    font-weight: bold; /* Bolder font */
+}
+
+.navigation-bar li a:hover, .dropdown:hover .dropbtn {
+    background-color: #986DB2; /* Lighter purple for hover effect */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    min-width: 160px; /* Ensures the dropdown covers enough area */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Responsive dropdown addition */
+@media (max-width: 768px) {
+    .navigation-bar ul {
+        flex-direction: column;
+    }
+    .dropdown-content {
+        width: 100%; /* Ensures dropdown covers full width under smaller screens */
+    }
+}
+
+.navigation-bar {
+    background-color: #7851A9; /* Uniform royal purple background */
+    width: 100%;
+    padding-left: 30px; /* Shift the items a bit more to the left */
+}
+
+.navigation-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start; /* Align items to start after padding */
+}
+
+.navigation-bar li {
+    position: relative;
+    display: block;
+}
+
+.navigation-bar li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 18px; /* Larger font size */
+    font-weight: bold; /* Bolder font */
+}
+
+.navigation-bar li a:hover, .dropdown:hover .dropbtn {
+    background-color: #986DB2; /* Lighter purple for hover effect */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7851A9; /* Match the dropdown background to the nav bar */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    min-width: 160px; /* Ensures the dropdown covers enough area */
+    left: 0; /* Align dropdown directly under its parent item */
+    right: 0;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #986DB2;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Responsive dropdown addition */
+@media (max-width: 768px) {
+    .navigation-bar ul {
+        flex-direction: column;
+    }
+    .dropdown-content {
+        width: 100%; /* Ensures dropdown covers full width under smaller screens */
+    }
+}
+.navigation-bar {
+    background-color: #7851A9; /* Royal purple background */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+.navigation-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.navigation-bar li {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.navigation-bar li a, .dropbtn {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 20px 30px;
+    text-decoration: none;
+    font-size: 18px; /* Larger font size */
+    font-weight: bold; /* Bolder font */
+    white-space: nowrap;
+}
+
+.navigation-bar li a:hover, .dropdown:hover .dropbtn {
+    background-color: #986DB2; /* Lighter purple for hover effect */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7851A9; /* Royal purple background */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    min-width: 100%; /* Full width of the dropdown */
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 30px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    font-size: 16px; /* Slightly smaller font size than the main items */
+    font-weight: normal; /* Normal font weight for dropdown items */
+}
+
+.dropdown-content a:hover {
+    background-color: #986DB2;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Responsive dropdown addition */
+@media (max-width: 768px) {
+    .navigation-bar ul {
+        flex-direction: column;
+    }
+    .dropdown-content {
+        width: 100%; /* Ensures dropdown covers full width under smaller screens */
+    }
+}
+.navigation-bar {
+    background-color: #7851A9; /* Royal purple background */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    z-index: 1000; /* High z-index to ensure visibility over other content */
+}
+
+.navigation-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: relative; /* Context for dropdown */
+}
+
+.navigation-bar li {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.navigation-bar li a, .dropbtn {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 20px 30px;
+    text-decoration: none;
+    font-size: 18px; /* Larger font size */
+    font-weight: bold; /* Bolder font */
+    white-space: nowrap;
+}
+
+.navigation-bar li a:hover, .dropdown:hover .dropbtn {
+    background-color: #986DB2; /* Lighter purple for hover effect */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7851A9; /* Royal purple background */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000; /* Ensure dropdown is above other content */
+    min-width: 100%; /* Full width of the dropdown */
+    left: 0; /* Align to left */
+    top: 100%; /* Start right below the menu item */
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 30px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    font-size: 16px; /* Slightly smaller font size than the main items */
+    font-weight: normal; /* Normal font weight for dropdown items */
+}
+
+.dropdown-content a:hover {
+    background-color: #986DB2;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Ensure other page content does not overlay navigation */
+.main-content {
+    position: relative;
+    z-index: 1; /* Lower than header and navigation */
+}
+.navigation-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+}
+
+.navigation-bar li {
+    position: relative;
+    padding: 20px 15px;
+}
+
+.navigation-bar li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.navigation-bar li a:hover, .dropdown:hover .dropbtn {
+    background-color: #986DB2;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7851A9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #986DB2;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.navigation-bar {
+    background-color: #7851A9; /* Royal purple background */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.navigation-bar ul {
+    list-style-type: none;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start; /* Align items to start to shift to the left */
+    padding-left: 200px;  /* Reduce left padding to bring text more to the left */
+    height: 60px; /* Adjust height as needed */
+}
+
+.navigation-bar li {
+    position: relative;
+    padding: 20px 5px; /* Adjust padding as needed */
+}
+
+.navigation-bar li a, .dropbtn {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;  /* Ensure clickable area extends to full list item */
+}
+
+.navigation-bar li:hover, .dropdown:hover .dropbtn {
+    background-color: #986DB2; /* Lighter purple for hover effect */
+}
+
+/* Dropdown Content Styling */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7851A9;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
+    min-width: 160px;
+    z-index: 5;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;  /* Ensures links take full width of the dropdown */
+    text-align: left; /* Ensures text is left-aligned within the dropdown */
+}
+
+.dropdown-content a:hover {
+    background-color: #986DB2;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;  /* Show dropdown when hovering over the dropdown trigger */
+}
+
+.navigation-bar li a, .dropbtn {
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover Effect for Main Menu Items */
+.navigation-bar li:hover, .dropdown:hover .dropbtn {
+    background-color: #986DB2;
+}
+
+/* Dropdown Menu Styling */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7851A9;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    min-width: 160px;
+    z-index: 5;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #986DB2;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block; /* Display dropdown content on hover */
+}
+
+/* Dropdown Styling */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7851A9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 100; /* Ensure it is on top of other content */
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    display: block;
+    text-align: left;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block; /* This is crucial for showing the dropdown */
+}
+
+/* Hover Effects */
+.navigation-bar li:hover, .dropdown:hover .dropbtn {
+    background-color: #986DB2;
+}
+
+.dropdown-content a:hover {
+    background-color: #986DB2;
+}
+.navigation-bar li a, .dropbtn {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Ensure dropdown content is not visible initially */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7851A9;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    width: 100%;  /* Optional: adjust width as necessary */
+    z-index: 1;
+}
+
+/* 'Show' class to display dropdown when it's added via JavaScript */
+.dropdown-content.show {
+    display: block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7851A9; /* Adjust color as needed */
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    width: 100%; /* Adjust width as needed */
+    z-index: 1000; /* Make sure it's on top */
+}
+
+.dropdown-content.show {
+    display: block;
+}
+.navigation-bar li a, .dropbtn {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 10px 15px;
+}
+.main-menu {
+    background-color: #7851A9;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.main-menu ul {
+    list-style-type: none;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.main-menu li {
+    position: relative;
+    padding: 10px 20px;
+}
+
+.main-menu li a, .dropbtn {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 10px 15px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7851A9;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+
+.main-menu .dropdown:hover .dropdown-content {
+    display: block;
+}
+/* Navigation Bar Styling */
+.main-menu {
+    background-color: #7851A9;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.main-menu ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-menu li {
+    position: relative;
+    padding: 10px 20px;
+}
+
+.main-menu li a, .dropbtn {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 15px;
+    display: inline-block; /* Ensures proper alignment */
+}
+
+/* Dropdown Styling */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7851A9;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+
+.main-menu .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Add triangle indicator for dropdowns */
+.main-menu .dropdown > a::after {
+    content: " ▼"; /* Triangle character */
+    font-size: 12px; /* Smaller size of the triangle */
+}
+
+/* Style adjustments for hover effects */
+.main-menu li a:hover, .main-menu .dropdown:hover > a {
+    background-color: #986DB2; /* Lighter purple for hover effect */
+}
+/* Navigation Bar Styling */
+.main-menu {
+    background-color: #9575CD; /* Softer purple background */
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    width: 100%;
+    padding-left: 20px; /* Space from the left edge */
+}
+
+.main-menu ul {
+    list-style-type: none;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.main-menu li {
+    position: relative;
+    padding: 10px 10px; /* Smaller padding between items */
+}
+
+.main-menu li a, .dropbtn {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    height: 100%; /* Make sure the link uses full height of the li */
+    white-space: nowrap; /* Prevents wrapping of text */
+}
+
+/* Dropdown Styling */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #B39DDB; /* Even lighter purple for dropdown */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    width: 100%;
+    z-index: 100;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+}
+
+.main-menu .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Style adjustments for hover effects */
+.main-menu li:hover, .main-menu .dropdown:hover > a {
+    background-color: #7E57C2; /* A different purple shade for hover */
+}
+/* Navigation Bar Styling */
+.main-menu {
+    background-color: #673AB7; /* Darker purple background */
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    width: 100%;
+    padding-left: 10px; /* Reduced space from the left edge */
+    height: 65px;
+}
+
+.main-menu ul {
+    list-style-type: none;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.main-menu li {
+    position: relative;
+    padding: 10px 10px; /* Maintain small padding between items */
+}
+
+.main-menu li a, .dropbtn {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 15px; /* Increased padding for taller navigation bar */
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Prevents wrapping of text */
+}
+
+/* Dropdown Styling */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #B39DDB; /* Light purple for dropdown */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    width: 100%;
+    z-index: 100;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+}
+
+.main-menu .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Style adjustments for hover effects */
+.main-menu li:hover, .main-menu .dropdown:hover > a {
+    background-color: #7E57C2; /* A different purple shade for hover */
+}
+.main-menu {
+    background-color: #673AB7; /* Darker purple background */
+    display: flex; /* Ensure items are aligned from the left */
+    width: 100%;
+    padding-right: 50px; /* Starts navigation items 100px from the left */
+    justify-content: flex-start; /* Align items to the left */
+    width: 100%;
+    height: 65px;
+}
+
+.main-menu {
+    background-color: #673AB7; /* Darker purple background */
+    display: flex;
+    justify-content: flex-start; /* Aligns items to the left */
+    width: 100%;
+    padding-left: 100px; /* Starts navigation items 100px from the left */
+}
+.main-menu ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    justify-content: flex-start;
+    padding-left: 120px; /* Starts navigation items 100px from the left */
+    width: 100%; /* Ensures the ul takes full width of its parent */
+    height: 65px; /* Adjust height as needed */
+}
+.active-link {
+    color: #a47dee; /* Lighter purple for the active link, adjust the color as needed */
+    background-color: #b383ee; /* Darker background for the active link, optional */
+}
+.main-menu li a, .dropbtn {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center; /* Vertically centers the text in the button */
+    height: 65px;
+    padding: 0 15px; /* Horizontal padding */
+    justify-content: center; /* Horizontally center text */
+}
+
+.main-menu li:hover, .main-menu .dropdown:hover > a {
+    background-color: #7E57C2; /* A different purple shade for hover */
+    padding: 0 15px; /* Maintain padding to prevent size change */
+}
+/* Ensure all anchor tags in the navigation bar have a box-sizing that includes border and padding in the element's total width and height */
+.main-menu a, .main-menu .dropbtn {
+    box-sizing: border-box;
+}
+
+.main-menu li a, .main-menu .dropbtn {
+    color: white;
+    font-size: 18px;
+    font-weight: bold; /* Ensure font-weight is the same on hover to prevent shifts */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 15px; /* Maintain consistent padding */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    text-decoration: none; /* Prevents underline on hover */
+    width: 100%; /* Full width to prevent shifts due to border or padding changes */
+}
+
+/* Hover effect without altering dimensions */
+.main-menu li a:hover, .main-menu .dropbtn:hover {
+    background-color: #7E57C2; /* Darker shade for hover effect */
+}
+
+/* If adding a border on hover, compensate by reducing padding */
+.main-menu li a:hover, .main-menu .dropbtn:hover {
+    border: 1px solid #7E57C2; /* Example border */
+    padding: 19px 14px; /* Reduce padding by 1px on all sides if border is added */
+}
+.main-menu li a, .main-menu .dropbtn {
+    color: white;
+    font-size: 18px;
+    font-weight: bold; /* Consistent weight */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 15px; /* Consistent padding */
+    text-decoration: none;
+    transition: background-color 0.3s ease; /* Smooth transition for visual effects */
+    border: 1px solid transparent; /* Key change: add transparent border */
+    box-sizing: border-box; /* Includes padding and border in the element's total dimensions */
+}
+
+.main-menu li a:hover, .main-menu .dropbtn:hover {
+    background-color: #7E57C2; /* Aesthetic change only */
+    border-color: #7E57C2; /* Change only the color of the border */
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.column {
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.results-container {
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.results-table th, .results-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.results-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.outcome-title {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.grid-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between; /* Adjust the spacing between columns */
+}
+
+.column {
+    flex: 1; /* Allow columns to grow and fill available space */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    min-width: 200px; /* Minimum width to ensure proper spacing */
+}
+
+.results-container {
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.results-table th, .results-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.results-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.outcome-title {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .grid-container {
+        flex-direction: column; /* Stack columns vertically on smaller screens */
+        align-items: center; /* Center the items horizontally */
+    }
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.grid-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between; /* Adjust the spacing between columns */
+}
+
+.column {
+    flex: 1; /* Default flex value for all columns */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    min-width: 200px; /* Minimum width to ensure proper spacing */
+}
+
+/* Adjust the flex value for the third column to make it wider */
+.column.results {
+    flex: 2; /* Double the width of the other columns */
+}
+
+.results-container {
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.results-table th, .results-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.results-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.outcome-title {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .grid-container {
+        flex-direction: column; /* Stack columns vertically on smaller screens */
+        align-items: center; /* Center the items horizontally */
+    }
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr; /* Adjusts the width of each column */
+    gap: 20px; /* Adds space between the columns */
+    padding: 20px; /* Adds padding around the grid */
+}
+
+.column {
+    background: #f9f9f9; /* Adds a background color to each column for better visibility */
+    padding: 15px;
+    border-radius: 8px; /* Rounds the corners of the column backgrounds */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds a subtle shadow to each column */
+}
+
+.checkbox {
+    display: flex;
+    flex-direction: column; /* Makes the checkboxes stack vertically */
+}
+
+.checkbox label {
+    margin-left: 8px; /* Adds space between checkbox and label */
+}
+
+.checkbox input {
+    margin-bottom: 10px; /* Adds space between checkboxes */
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1.5fr 3fr 1.5fr; /* Adjusts the width of each column */
+    gap: 20px; /* Adds space between the columns */
+    padding: 20px; /* Adds padding around the grid */
+}
+
+.column {
+    background: #f9f9f9; /* Adds a background color to each column for better visibility */
+    padding: 15px;
+    border-radius: 8px; /* Rounds the corners of the column backgrounds */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds a subtle shadow to each column */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the content vertically */
+}
+
+.column h3 {
+    width: 100%; /* Ensures the heading takes up the full width of the column */
+    text-align: center; /* Centers the text of the heading */
+    margin-bottom: 20px; /* Adds space below the heading */
+}
+
+.checkbox {
+    display: flex;
+    flex-wrap: wrap; /* Allows checkboxes to wrap onto the next line */
+    justify-content: space-between; /* Distributes space between checkboxes */
+}
+
+.checkbox div {
+    width: 48%; /* Sets the width of each checkbox to be less than half of the container */
+    margin-bottom: 10px; /* Adds space between rows of checkboxes */
+}
+
+.checkbox label {
+    margin-left: 8px; /* Adds space between checkbox and label */
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1.5fr 3fr 1.5fr; /* Adjusts the width of each column */
+    gap: 20px; /* Adds space between the columns */
+    padding: 20px; /* Adds padding around the grid */
+}
+
+.column {
+    background: #f9f9f9; /* Adds a background color to each column for better visibility */
+    padding: 15px;
+    border-radius: 8px; /* Rounds the corners of the column backgrounds */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds a subtle shadow to each column */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the content vertically */
+}
+
+.column h3 {
+    width: 100%; /* Ensures the heading takes up the full width of the column */
+    text-align: center; /* Centers the text of the heading */
+    margin-bottom: 20px; /* Adds space below the heading */
+}
+
+.checkbox {
+    display: flex;
+    flex-wrap: wrap; /* Allows checkboxes to wrap onto the next line */
+    justify-content: space-between; /* Distributes space between checkboxes */
+}
+
+.checkbox div {
+    width: 48%; /* Sets the width of each checkbox to be less than half of the container */
+    margin-bottom: 10px; /* Adds space between rows of checkboxes */
+}
+
+.checkbox label {
+    margin-left: 8px; /* Adds space between checkbox and label */
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1.5fr 3fr 1.5fr; /* Adjusts the width of each column */
+    gap: 20px; /* Adds space between the columns */
+    padding: 20px; /* Adds padding around the grid */
+    width: 100%; /* Ensures the grid takes up the full width of the container */
+    box-sizing: border-box;
+}
+
+.column {
+    background: #f9f9f9; /* Adds a background color to each column for better visibility */
+    padding: 15px;
+    border-radius: 8px; /* Rounds the corners of the column backgrounds */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds a subtle shadow to each column */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the content vertically */
+}
+
+/* If margins are still not working, add specific margin settings or adjust padding */
+.column {
+    margin-bottom: 30px; /* Adds space below each column if needed */
+}
+
+/* Ensure the checkbox columns do not interfere with margins */
+.checkbox-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Ensures it uses the full width of the column */
+}
+
+.checkbox-column {
+    width: 48%; /* Each column takes nearly half of the container width */
+}
+
+.checkbox {
+    margin-bottom: 10px; /* Space between checkboxes */
+}
+.checkbox-group {
+    display: flex;
+    flex-direction: row; /* This ensures that the group is split into a row for two columns */
+    justify-content: space-between;
+    width: 100%; /* Uses full width to allow for space between columns */
+}
+.checkbox-column {
+    width: 48%; /* Gives each column almost half of the total width to fit side by side */
+    display: flex;
+    flex-direction: column; /* Aligns checkboxes vertically within each column */
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; /* Gives the second column twice the space of the others */
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; /* Allocation as intended */
+    gap: 20px;
+    padding: 20px;
+    width: 100%; /* Ensures the container uses the full available width */
+    box-sizing: border-box; /* Includes padding in the width calculation */
+}
+
+.grid-container {
+    width: 100%;
+    max-width: 100%; /* Ensures that the container does not exceed the width of its parent */
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; /* Allocates double space for the second column */
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box; /* Includes padding in the width */
+}
+/* Example: Check parent container styles */
+.parent-container {
+    width: 100%; /* Ensure it's not constraining the grid container */
+    padding: 0; /* Check if padding is affecting the layout */
+    overflow: hidden; /* Ensure it's not clipping the grid */
+}
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* Stacks columns on smaller screens */
+    }
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1.25fr 2.75fr 1.5fr;  /* 1:3:1 ratio for the columns */
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 1300px;  /* You can adjust this to fit your design */
+    margin: 0 auto;  /* This centers the grid container in the parent */
+    box-sizing: border-box;
+}
+.checkbox {
+    width: auto; /* Adjust based on your layout, or use 100% if each checkbox is on a new line */
+}
+.checkbox label {
+    cursor: pointer; /* Indicates the label is clickable */
+    user-select: none; /* Prevents text selection */
+}
+.checkbox input[type="checkbox"] {
+    margin-right: 10px; /* Space between the checkbox and the label */
+    cursor: pointer; /* Indicates an interactive element */
+}
+.checkbox {
+    display: flex;
+    align-items: center; /* Centers items vertically */
+    margin-bottom: 10px; /* Space between each checkbox */
+}
+/* Container for the checkbox group */
+.checkbox-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Each column within the checkbox group */
+.checkbox-column {
+    width: 48%; /* Adjust this width as needed */
+}
+
+/* Each checkbox item to align checkbox and label */
+.checkbox-item {
+    display: flex;
+    align-items: center; /* Vertically center align items */
+    margin-bottom: 10px; /* Space between each checkbox item */
+}
+
+/* Style the checkbox */
+.checkbox-item input[type="checkbox"] {
+    margin-right: 10px; /* Space between checkbox and label */
+}
+
+/* Style the label */
+.checkbox-item label {
+    font-size: 16px; /* Adjust font size as needed */
+    cursor: pointer; /* Indicate the label is clickable */
+}
+/* Container for the checkbox group */
+.checkbox-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-start; /* Align items to the top */
+}
+
+/* Each column within the checkbox group */
+.checkbox-column {
+    width: 48%; /* Adjust this width as needed */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Each checkbox item to align checkbox and label */
+.checkbox-item {
+    display: flex;
+    align-items: center; /* Vertically center align items */
+    margin-bottom: 10px; /* Space between each checkbox item */
+}
+
+/* Style the checkbox */
+.checkbox-item input[type="checkbox"] {
+    margin-right: 10px; /* Space between checkbox and label */
+}
+
+/* Style the label */
+.checkbox-item label {
+    font-size: 16px; /* Adjust font size as needed */
+    cursor: pointer; /* Indicate the label is clickable */
+}
+/* Each checkbox item to align checkbox and label */
+.checkbox-item {
+    display: flex;
+    align-items: center; /* Vertically center align items */
+    margin-bottom: 10px; /* Space between each checkbox item */
+}
+
+/* Style the checkbox */
+.checkbox-item input[type="checkbox"] {
+    width: 20px; /* Larger checkbox size */
+    height: 20px; /* Larger checkbox size */
+    margin-right: 10px; /* Space between checkbox and label */
+    cursor: pointer; /* Indicate the checkbox is clickable */
+    padding: 10px; /* Increase clickable area */
+}
+
+/* Style the label */
+.checkbox-item label {
+    font-size: 16px; /* Adjust font size as needed */
+    cursor: pointer; /* Indicate the label is clickable */
+}
+/* Each checkbox item to align checkbox and label */
+.checkbox-item {
+    display: flex;
+    align-items: center; /* Vertically center align items */
+    margin-bottom: 10px; /* Space between each checkbox item */
+}
+
+/* Style the checkbox */
+.checkbox-item input[type="checkbox"] {
+    width: 20px; /* Larger checkbox size */
+    height: 20px; /* Larger checkbox size */
+    margin-right: 10px; /* Space between checkbox and label */
+    cursor: pointer; /* Indicate the checkbox is clickable */
+    padding: 0; /* Remove padding */
+    vertical-align: middle; /* Align checkbox vertically in the middle */
+}
+
+/* Style the label */
+.checkbox-item label {
+    font-size: 16px; /* Adjust font size as needed */
+    line-height: 24px; /* Match the line-height to checkbox height */
+    cursor: pointer; /* Indicate the label is clickable */
+    margin: 10px; /* Ensure no additional margins interfere */
+}
+/* Predicted probability styling */
+.predicted-probability {
+    font-size: 24px; /* Larger font size */
+    font-weight: bold; /* Bold text */
+    margin-bottom: 10px; /* Space below the probability */
+}
+
+/* Confidence intervals styling */
+.confidence-intervals {
+    font-size: 14px; /* Smaller font size */
+    color: #666; /* Lighter color for emphasis */
+    margin-top: 5px; /* Space above the confidence intervals */
+    display: flex;
+    flex-direction: column;
+}
+/* Predicted probability styling */
+.predicted-probability {
+    font-size: 32px; /* Larger font size */
+    font-weight: bold; /* Bold text */
+    margin-bottom: 10px; /* Space below the probability */
+    text-align: center; /* Center align */
+}
+
+/* Confidence intervals styling */
+.confidence-intervals {
+    font-size: 14px; /* Smaller font size */
+    color: #666; /* Lighter color for emphasis */
+    text-align: center; /* Center align */
+}
+
+.confidence-intervals div {
+    display: flex;
+    justify-content: center; /* Center the text */
+    margin-top: 5px; /* Space above the confidence intervals */
+}
+/* Results container styling */
+.results-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Predicted probability styling */
+.predicted-probability {
+    font-size: 48px; /* Larger font size */
+    font-weight: bold; /* Bold text */
+    margin-bottom: 20px; /* Space below the probability */
+}
+
+/* Confidence intervals styling */
+.confidence-intervals {
+    font-size: 16px; /* Smaller font size */
+    color: #666; /* Lighter color for emphasis */
+    margin-top: 10px; /* Space above the confidence intervals */
+}
+
+.confidence-intervals .ci-values {
+    font-size: 14px; /* Even smaller font size for the CI values */
+    margin-top: 5px; /* Space above the CI values */
+}
+/* Results container styling */
+.results-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Outcome title styling */
+.outcome-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Predicted probability styling */
+.predicted-probability {
+    font-size: 36px; /* Adjusted font size */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Confidence intervals styling */
+.confidence-intervals {
+    font-size: 14px; /* Smaller font size */
+    color: #666; /* Lighter color for emphasis */
+    margin-top: 5px;
+}
+
+.confidence-intervals .ci-values {
+    font-size: 12px; /* Even smaller font size for the CI values */
+    margin-top: 5px;
+}
+.outcome-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.predicted-probability {
+    font-size: 28px; /* Smaller font size for the probability value */
+    font-weight: bold;
+    color: #000;
+    margin: 10px 0;
+}
+
+.confidence-intervals {
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+}
+
+#probabilityValue {
+    display: block;
+    font-size: 24px; /* Smaller font size for better fit */
+    font-weight: bold;
+    color: #007bff;
+}
+
+.ci-label {
+    font-weight: bold;
+    color: #333;
+    margin-right: 5px;
+}
+
+.ci-values {
+    font-size: 20px;
+    color: #007bff;
+}
+
+.outcome-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.predicted-probability {
+    font-size: 28px; /* Smaller font size for the probability value */
+    font-weight: bold;
+    color: #000;
+    margin: 10px 0;
+}
+
+.confidence-intervals {
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+}
+
+#probabilityValue {
+    display: block;
+    font-size: 28px; /* Smaller font size for better fit */
+    font-weight: bold;
+    color: #0c0b0b; /* Changed color to a red tone */
+}
+
+.ci-label {
+    font-weight: bold;
+    color: #333;
+    margin-right: 5px;
+}
+
+.ci-values {
+    font-size: 16px;
+    color: #8a8585; /* Changed color to a red tone */
+}
+.ci-explanation {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+h3 {
+    text-align: center;
+    color: #333;
+}
+
+.results-container {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center; /* Center align text */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.outcome-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.confidence-intervals {
+    font-size: 26px;
+    color: #777;
+    margin-top: 10px;
+}
+
+#ciLabel {
+    display: block;
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.ci-values {
+    font-size: 55px;
+    font-weight: bold;
+    color: #d9534f; /* Changed color to a red tone */
+}
+
+.outcome-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.confidence-intervals {
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+}
+
+#ciLabel {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.ci-values {
+    font-size: 32px; /* Increased font size for better visibility */
+    font-weight: bold;
+    color: #d9534f; /* Changed color to a red tone */
+}
+
+p {
+    text-align: center;
+    color: #666;
+}
+
+.ci-explanation {
+    font-size: 14px; /* Increased font size for better visibility */
+    color: #555;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+.ci-values {
+    font-size: 32px !important; /* Increased font size for better visibility */
+    font-weight: bold !important;
+    color: #d9534f !important; /* Changed color to a red tone */
+    display: inline-block; /* Ensures the spans are affected */
+}
+
+.ci-values span {
+    font-size: 22px !important; /* Ensures the font size is applied to span elements */
+}
+button {
+    background-color: #5bc0de;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #31b0d5;
+}
+
+button.processing {
+    background-color: #f0ad4e; /* Yellow for processing */
+    cursor: not-allowed;
+}
+
+button.error {
+    background-color: #d9534f; /* Red for error */
+    cursor: not-allowed;
+}
+
+button.success {
+    background-color: #5bc0de; /* Blue for success (original color) */
+    cursor: pointer;
+}
+
+#error-message-container {
+    display: none;
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
+button {
+    background-color: #6813d8;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+    transition: background-color 0.3s, cursor 0.3s;
+}
+
+button:hover {
+    background-color: #6e0feb;
+}
+
+button.processing {
+    background-color: #f0ad4e !important; /* Yellow for processing */
+    cursor: not-allowed;
+}
+
+button.error {
+    background-color: #d9534f !important; /* Red for error */
+    cursor: not-allowed;
+}
+
+button.success {
+    background-color: #13d875 !important; /* Blue for success (original color) */
+    cursor: pointer;
+}
+
+#error-message-container {
+    display: none;
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+.info-icon {
+    margin-left: 5px;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block;
+    position: relative;
+}
+
+.info-icon:hover::after, .info-icon:focus::after {
+    content: attr(data-info);
+    position: absolute;
+    left: 20px;
+    top: -5px;
+    background: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 10;
+    width: max-content;
+    max-width: 200px;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.info-icon:hover::before, .info-icon:focus::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-right-color: #333;
+    z-index: 11;
+}
+
+.info-icon {
+    margin-left: 10px;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 18px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    left: 30px;
+    top: -10px;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 10;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.info-icon:hover .tooltip {
+    display: block;
+}
+
+.info-icon {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: normal; /* Allow text to wrap */
+    z-index: 10;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 200px; /* Set a maximum width to handle wrapping */
+    word-wrap: break-word; /* Ensure the text wraps within the box */
+}
+
+.info-icon:hover .tooltip, .info-icon:focus .tooltip {
+    display: block;
+}
+.info-icon {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: normal; /* Allow text to wrap */
+    z-index: 10;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 200px; /* Set a maximum width to handle wrapping */
+    word-wrap: break-word; /* Ensure the text wraps within the box */
+}
+
+.info-icon:hover::after, .info-icon:focus::after {
+    content: attr(data-info);
+    display: block;
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: normal; /* Allow text to wrap */
+    z-index: 10;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 200px; /* Set a maximum width to handle wrapping */
+    word-wrap: break-word; /* Ensure the text wraps within the box */
+}
+
+.info-icon {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    left: 30px;
+    top: 50px; /* Adjust to move tooltip above other text */
+    transform: translateY(-50%);
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: normal; /* Allow text to wrap */
+    z-index: 10;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 150px; /* Set a narrower maximum width */
+    height: auto; /* Auto height to fit content */
+    min-height: 50px; /* Set a minimum height */
+    word-wrap: break-word; /* Ensure the text wraps within the box */
+    overflow: hidden; /* Hide overflow if necessary */
+}
+
+.info-icon:hover::after, .info-icon:focus::after {
+    content: attr(data-info);
+    display: block;
+    position: absolute;
+    left: 30px;
+    top: -50px; /* Adjust to move tooltip above other text */
+    transform: translateY(-100%);
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: normal; /* Allow text to wrap */
+    z-index: 10;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 150px; /* Set a narrower maximum width */
+    height: auto; /* Auto height to fit content */
+    min-height: 50px; /* Set a minimum height */
+    word-wrap: break-word; /* Ensure the text wraps within the box */
+    overflow: hidden; /* Hide overflow if necessary */
+}
+.checkbox-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.info-icon {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    left: 30px; /* Adjusted to position the tooltip to the right */
+    top: 50%;
+    transform: translateY(-50%);
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: normal; /* Allow text to wrap */
+    z-index: 10;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 150px; /* Set a narrower maximum width */
+    height: auto; /* Auto height to fit content */
+    min-height: 50px; /* Set a minimum height */
+    word-wrap: break-word; /* Ensure the text wraps within the box */
+    overflow: hidden; /* Hide overflow if necessary */
+}
+
+.info-icon:hover::after, .info-icon:focus::after {
+    content: attr(data-info);
+    display: block;
+    position: absolute;
+    left: 30px; /* Adjusted to position the tooltip to the right */
+    top: 50%;
+    transform: translateY(-50%);
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: normal; /* Allow text to wrap */
+    z-index: 10;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 150px; /* Set a narrower maximum width */
+    height: auto; /* Auto height to fit content */
+    min-height: 50px; /* Set a minimum height */
+    word-wrap: break-word; /* Ensure the text wraps within the box */
+    overflow: hidden; /* Hide overflow if necessary */
+}
+.etiology-dropdown-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.etiology-dropdown {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 50%;
+    max-width: 300px;
+}
+
+.info-icon {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: normal;
+    z-index: 10;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    word-wrap: break-word;
+    top: 40px; /* Position below the icon */
+    left: 50%;
+    transform: translateX(-50%);
+}
+.etiology-dropdown-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.etiology-dropdown {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 50%;
+    max-width: 300px;
+}
+
+.info-icon {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+.etiology-dropdown-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.etiology-dropdown {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 50%;
+    max-width: 300px;
+}
+
+.info-icon {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+    font-size: 14px; /* Wider font */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    word-wrap: break-word;
+    top: 50px; /* Adjust as needed */
+    left: calc(100% + 10px); /* Position to the bottom right of the icon */
+    white-space: normal; /* Allow text to wrap */
+}
+
+.tooltip ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tooltip li {
+    margin-bottom: 10px;
+}
+
+
+.tooltip {
+    display: none;
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: normal;
+    z-index: 10;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    word-wrap: break-word;
+    top: 50px; /* Position below the header */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tooltip ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tooltip li {
+    margin-bottom: 10px;
+}
+.etiology-dropdown-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.etiology-dropdown {
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 50%;
+    max-width: 300px;
+}
+
+.info-icon {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+.tooltip {
+    display: none;
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px; /* Increase font size */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    word-wrap: break-word;
+    white-space: normal; /* Allow text to wrap */
+}
+
+.tooltip ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tooltip li {
+    margin-bottom: 10px;
+}
+.etiology-dropdown-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.etiology-dropdown {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 50%;
+    max-width: 300px;
+}
+
+.info-icon {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+    font-size: 16px; /* Increase font size */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    word-wrap: break-word;
+    top: 100%; /* Position below the icon */
+    left: 0; /* Align to the left of the icon */
+    transform: translateY(10px); /* Adjust as needed */
+    white-space: normal; /* Allow text to wrap */
+}
+
+.tooltip ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tooltip li {
+    margin-bottom: 10px;
+}
+.etiology-dropdown-container {
+    display: flex;
+    justify-content: flex-start; /* Align to the left */
+    margin: 20px 0;
+}
+
+.etiology-dropdown {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 50%;
+    max-width: 300px;
+}
+
+.info-icon {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+    font-size: 16px; /* Increase font size */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px; /* Increase max-width for a wider box */
+    word-wrap: break-word;
+    top: 100%; /* Position below the icon */
+    left: 0; /* Align to the left of the icon */
+    transform: translateY(10px); /* Adjust as needed */
+    white-space: normal; /* Allow text to wrap */
+}
+
+.tooltip ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tooltip li {
+    margin-bottom: 10px;
+}
+.etiology-dropdown-container {
+    display: flex;
+    justify-content: center; /* Center the container */
+    margin: 20px 0;
+}
+
+.etiology-dropdown {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 50%;
+    max-width: 300px;
+}
+
+.info-icon {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+    font-size: 16px; /* Increase font size */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px; /* Increase max-width for a wider box */
+    word-wrap: break-word;
+    white-space: normal; /* Allow text to wrap */
+}
+.etiology-dropdown-container {
+    display: flex;
+    justify-content: center; /* Center the container */
+    margin: 20px 0;
+}
+
+.etiology-dropdown {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 50%;
+    max-width: 300px;
+}
+
+.info-icon {
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+    font-size: 16px; /* Increase font size */
+    box-shadow: 0 0 10px rgba(206, 160, 160, 0.2);
+    max-width: 400px; /* Increase max-width for a wider box */
+    word-wrap: break-word;
+    white-space: normal; /* Allow text to wrap */
+}
+.card {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input[type="number"], input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+.logo-left {
+    float: left;
+    margin-left: 120px;
+}
+
+.card {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input[type="number"], input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
