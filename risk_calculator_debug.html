@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk calculator — Debug</title>
+    <script src="prototype2_model.js" defer></script>
+    <style>
+        .debug-wrap { max-width: 900px; margin: 0 auto; padding: 15px 20px; }
+        .debug-card { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 16px; margin-bottom: 12px; }
+        .debug-card h3 { margin: 0 0 10px 0; font-size: 1.1em; }
+        .debug-summary { font-family: monospace; font-size: 0.9em; margin-bottom: 8px; }
+        .debug-summary-line { display: block; margin-bottom: 4px; }
+        .beta-table { width: 100%; font-size: 0.85em; border-collapse: collapse; margin-top: 8px; }
+        .beta-table th, .beta-table td { padding: 5px 8px; border: 1px solid #ddd; text-align: left; }
+        .beta-table th { background: #f0f0f0; }
+        .beta-table td:nth-child(2), .beta-table td:nth-child(3) { text-align: right; }
+        .beta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .ci-formula { background: #f5f5f5; padding: 12px; border-radius: 6px; font-size: 0.9em; margin-top: 12px; line-height: 1.5; }
+        .debug-results-section { display: none; }
+        .debug-results-section.visible { display: block; }
+        .debug-case-intro { font-size: 0.95em; margin-bottom: 10px; color: #444; }
+        @media (max-width: 700px) { .beta-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <script src="loadNavbar.js"></script>
+    <script src="content.js"></script>
+
+    <div class="debug-wrap">
+        <div class="debug-card">
+            <div class="ci-formula">
+                <strong>95% CI formula (approx.):</strong> On the logit scale, z ± 1.96 × SE, where SE = √(x′Σx). The interval is then back-transformed to the probability scale via p = 1/(1 + e<sup>−z</sup>).
+            </div>
+        </div>
+
+        <div id="debugCaseSection" class="debug-card debug-results-section">
+            <h3>From Risk Calculator</h3>
+            <div class="beta-grid">
+                <div>
+                    <h4 style="margin: 0 0 4px 0; font-size: 0.95em;">6‑month</h4>
+                    <div id="summary6m" class="debug-summary"></div>
+                    <table id="table6m" class="beta-table">
+                        <thead><tr><th>Predictor</th><th>x</th><th>β</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 4px 0; font-size: 0.95em;">12‑month</h4>
+                    <div id="summary12m" class="debug-summary"></div>
+                    <table id="table12m" class="beta-table">
+                        <thead><tr><th>Predictor</th><th>x</th><th>β</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="debug-card">
+            <h3>Beta matrices</h3>
+            <p style="margin: 0 0 10px 0; font-size: 0.95em;">Coefficients (β) for the 6‑month and 12‑month models.</p>
+            <div class="beta-grid">
+                <div>
+                    <h4 style="margin: 0 0 6px 0; font-size: 0.95em;">6‑month — Predictor and β</h4>
+                    <table id="betaOnlyTable6m" class="beta-table">
+                        <thead><tr><th>Predictor</th><th>β</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 6px 0; font-size: 0.95em;">12‑month — Predictor and β</h4>
+                    <table id="betaOnlyTable12m" class="beta-table">
+                        <thead><tr><th>Predictor</th><th>β</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var caseSection = document.getElementById('debugCaseSection');
+            var summary6 = document.getElementById('summary6m');
+            var summary12 = document.getElementById('summary12m');
+            var tbody6 = document.querySelector('#table6m tbody');
+            var tbody12 = document.querySelector('#table12m tbody');
+
+            function renderCaseTables(data) {
+                var etiology = data.etiology || 'MASLD';
+                var masldVal = (etiology === 'MASLD') ? 1 : 0;
+                var se6 = data.ci6m && typeof data.ci6m.se === 'number' ? data.ci6m.se.toFixed(6) : '—';
+                var se12 = data.ci12m && typeof data.ci12m.se === 'number' ? data.ci12m.se.toFixed(6) : '—';
+                summary6.innerHTML = '<span class="debug-summary-line"><strong>logit (z)</strong> = ' + data.z6m.toFixed(6) + '</span><span class="debug-summary-line"><strong>probability</strong> = ' + (data.p6m * 100).toFixed(2) + '%</span><span class="debug-summary-line"><strong>SE</strong> = ' + se6 + '</span>';
+                summary12.innerHTML = '<span class="debug-summary-line"><strong>logit (z)</strong> = ' + data.z12m.toFixed(6) + '</span><span class="debug-summary-line"><strong>probability</strong> = ' + (data.p12m * 100).toFixed(2) + '%</span><span class="debug-summary-line"><strong>SE</strong> = ' + se12 + '</span>';
+                function fill(tbody, contributions) {
+                    if (!tbody || !contributions) return;
+                    tbody.innerHTML = '';
+                    for (var i = 0; i < contributions.length; i++) {
+                        var row = contributions[i];
+                        var name = row.displayName || row.name;
+                        var tr = document.createElement('tr');
+                        tr.innerHTML = '<td>' + name + '</td><td>' + Number(row.x).toFixed(6) + '</td><td>' + Number(row.beta).toFixed(6) + '</td>';
+                        tbody.appendChild(tr);
+                    }
+                    var masld = document.createElement('tr');
+                    masld.style.fontStyle = 'italic';
+                    masld.style.background = '#f9f9f9';
+                    masld.innerHTML = '<td>MASLD (baseline)</td><td>' + masldVal.toFixed(6) + '</td><td>0.000000</td>';
+                    tbody.appendChild(masld);
+                }
+                fill(tbody6, data.contributions6m);
+                fill(tbody12, data.contributions12m);
+                caseSection.classList.add('visible');
+            }
+
+            try {
+                var stored = localStorage.getItem('riskCalculatorDebugData');
+                if (stored) {
+                    var data = JSON.parse(stored);
+                    renderCaseTables(data);
+                }
+            } catch (e) { }
+
+            (function loadBetaMatrices() {
+                var tbody6m = document.querySelector('#betaOnlyTable6m tbody');
+                var tbody12m = document.querySelector('#betaOnlyTable12m tbody');
+                Promise.all([
+                    window.Prototype2Model.loadModel6m(),
+                    window.Prototype2Model.loadModel12m(),
+                    window.Prototype2Model.loadPredictorNameMap()
+                ]).then(function (results) {
+                    var model6m = results[0];
+                    var model12m = results[1];
+                    var nameMap = results[2];
+                    function fill(tbody, model) {
+                        if (!tbody || !model) return;
+                        tbody.innerHTML = '';
+                        for (var i = 0; i < model.predictors.length; i++) {
+                            var name = model.predictors[i];
+                            var displayName = nameMap.get(name) || name;
+                            var tr = document.createElement('tr');
+                            tr.innerHTML = '<td>' + displayName + '</td><td>' + Number(model.betas[i]).toFixed(6) + '</td>';
+                            tbody.appendChild(tr);
+                        }
+                        var masld = document.createElement('tr');
+                        masld.style.fontStyle = 'italic';
+                        masld.style.background = '#f9f9f9';
+                        masld.innerHTML = '<td>MASLD (baseline)</td><td>0.000000</td>';
+                        tbody.appendChild(masld);
+                    }
+                    fill(tbody6m, model6m);
+                    fill(tbody12m, model12m);
+                }).catch(function (e) {
+                    if (tbody6m) tbody6m.innerHTML = '<tr><td colspan="2">Failed to load: ' + (e && e.message ? e.message : e) + '</td></tr>';
+                    if (tbody12m) tbody12m.innerHTML = '<tr><td colspan="2">Failed to load: ' + (e && e.message ? e.message : e) + '</td></tr>';
+                });
+            })();
+        });
+    </script>
+</body>
+</html>
