@@ -36,9 +36,67 @@
         .paper-actions a:hover { text-decoration: underline; }
         .paper-preview-wrap { margin-top: 16px; border: 1px solid #dee2e6; border-radius: 6px; overflow: hidden; background: #fff; height: 420px; }
         .paper-preview-wrap iframe { width: 100%; height: 100%; border: 0; }
+
+        /* Password gate */
+        #content-gate { display: none; }
+        #content-gate.unlocked { display: block; }
+        #password-overlay {
+            position: fixed;
+            inset: 0;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        #password-overlay.hidden { display: none; }
+        .password-box {
+            background: #fff;
+            padding: 32px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+            text-align: center;
+            max-width: 360px;
+        }
+        .password-box h2 { margin: 0 0 8px 0; font-size: 1.25em; color: #2c3e50; }
+        .password-box p { margin: 0 0 20px 0; color: #666; font-size: 0.95em; }
+        .password-box input {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        .password-box input:focus { outline: none; border-color: #673AB7; }
+        .password-box button {
+            margin-top: 16px;
+            padding: 12px 24px;
+            background: #673AB7;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .password-box button:hover { background: #5E35B1; }
+        .password-error { color: #c62828; font-size: 0.9em; margin-top: 10px; display: none; }
+        .password-error.show { display: block; }
     </style>
 </head>
 <body>
+    <div id="password-overlay">
+        <div class="password-box">
+            <h2>Enter password</h2>
+            <p>This page is protected. Enter the password to continue.</p>
+            <input type="password" id="gate-password" placeholder="Password" autocomplete="off" />
+            <button type="button" id="gate-submit">Continue</button>
+            <p class="password-error" id="gate-error">Incorrect password. Please try again.</p>
+        </div>
+    </div>
+
+    <div id="content-gate">
     <script src="loadNavbar.js"></script>
 
     <div class="home-wrap">
@@ -63,5 +121,47 @@
             </div>
         </div>
     </div>
+    </div><!-- #content-gate -->
+
+    <script>
+        (function () {
+            var KEY = 'uhg_gate';
+            var PASS = 'r01ladner';
+            var overlay = document.getElementById('password-overlay');
+            var gate = document.getElementById('content-gate');
+            var input = document.getElementById('gate-password');
+            var submit = document.getElementById('gate-submit');
+            var error = document.getElementById('gate-error');
+
+            function unlock() {
+                try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+                overlay.classList.add('hidden');
+                gate.classList.add('unlocked');
+            }
+
+            function check() {
+                var val = (input.value || '').trim();
+                if (val === PASS) {
+                    error.classList.remove('show');
+                    unlock();
+                    return;
+                }
+                error.classList.add('show');
+                input.focus();
+            }
+
+            if (sessionStorage.getItem(KEY) === '1') {
+                unlock();
+            } else {
+                gate.classList.remove('unlocked');
+                overlay.classList.remove('hidden');
+            }
+
+            submit.addEventListener('click', check);
+            input.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') check();
+            });
+        })();
+    </script>
 </body>
 </html>
