@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     <img src="nu-vertical.jpg" alt="Descriptive Text for Image" class="content-image">
                     <div class="divider"></div>
                     <div class="content-text">
-                        <p>We recommend that patients use this tool in consultation with their doctor.</p>
-                        <p>This tool is only for use in patients who are just diagnosed with a liver cirrhosis.</p>
+                        <p>We recommend that patients use this tool in consultation with their doctor. This tool is only for use in patients who are just diagnosed with a liver cirrhosis.</p>
+                        <p>The output from this tool should not be considered clinical advice. The tool is simply designed to convert the findings from the research into an easy-to-use risk calculator.</p>
                     </div>
                 </div>
             </div>
